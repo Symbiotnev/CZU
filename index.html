@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   :root{
     --ink-green:#1F2E22;
@@ -166,6 +166,21 @@
   .chart-card .chart-note{ font-size:14px; margin-top:14px; }
   .chart-box{ position:relative; height:320px; margin-top:18px; }
   .chart-stack{ display:flex; flex-direction:column; gap:28px; }
+
+  /* ---------- interactive controls ---------- */
+  .controls-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:28px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:22px 26px; margin-bottom:28px; }
+  .control-group{ display:flex; flex-direction:column; gap:10px; }
+  .control-group .label{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .scenario-toggle{ display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .scenario-toggle button{ font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600; padding:9px 16px; border:none; background:#fff; color:var(--ink); cursor:pointer; transition:background .15s ease, color .15s ease; }
+  .scenario-toggle button + button{ border-left:1px solid var(--line); }
+  .scenario-toggle button.active{ background:var(--ink-green); color:var(--cream-text); }
+  .scenario-toggle button:hover:not(.active){ background:var(--parchment-2); }
+  .slider-group{ flex:1; min-width:220px; display:flex; flex-direction:column; gap:10px; }
+  .slider-group input[type="range"]{ width:100%; accent-color:var(--maroon); height:4px; }
+  .slider-readout{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); }
+  .slider-readout b{ color:var(--maroon); }
+  .chart-legend-hint{ font-size:12.5px; color:var(--muted); margin-top:8px; }
 
   /* ---------- governance ---------- */
   .gov-list{ display:grid; grid-template-columns:1fr 1fr; gap:26px 40px; }
