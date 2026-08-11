@@ -2,594 +2,270 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Imfuyo Mbuziplus — Communal Zero-Grazing Units</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<title>Firebase Phone Auth — Test Harness</title>
 <style>
   :root{
-    --ink-green:#1F2E22;
-    --ink-green-2:#28392C;
-    --ink-green-3:#334A38;
-    --parchment:#F1ECE0;
-    --parchment-2:#E7E0CE;
-    --parchment-3:#DCD3BB;
-    --maroon:#6B2330;
-    --maroon-2:#8C3040;
-    --gold:#B98B3E;
-    --gold-soft:#DDBD82;
-    --ink:#211F1A;
-    --cream-text:#F1ECE0;
-    --muted:#6E6A58;
-    --muted-on-green:#B9C2B6;
-    --line:#CFC5A8;
-    --line-on-green:#425547;
+    --bg: #0d1117;
+    --panel: #151b23;
+    --border: #2a323d;
+    --text: #e6edf3;
+    --muted: #8b98a5;
+    --accent: #4fd1a5;
+    --accent-dim: #2f7d63;
+    --danger: #ff6b6b;
+    --mono: 'SF Mono', 'Consolas', 'Menlo', monospace;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'Inter',sans-serif;
-    color:var(--ink);
-    background:var(--parchment);
-    -webkit-font-smoothing:antialiased;
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 24px;
   }
-  ::selection{ background:var(--gold-soft); color:var(--ink); }
-  img{max-width:100%; display:block;}
-  a{color:inherit;}
-
-  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; line-height:1.08; letter-spacing:-.01em; }
-  p, li{ font-size:16px; line-height:1.6; }
-  .mono{ font-family:'IBM Plex Mono', monospace; }
-  .muted{ color:var(--muted); }
-
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    font-weight:500;
-    display:inline-flex; align-items:center; gap:10px;
-    color:var(--maroon);
+  .card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
   }
-  .eyebrow::before{ content:""; width:22px; height:1.5px; background:currentColor; display:inline-block; }
-  .section-dark .eyebrow{ color:var(--gold-soft); }
-
-  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
-  section{ padding:96px 0; position:relative; }
-  section.tight{ padding:72px 0; }
-  .section-dark{ background:linear-gradient(160deg, var(--ink-green) 0%, var(--ink-green-2) 55%, var(--ink-green-3) 100%); color:var(--cream-text); }
-  .section-dark .muted{ color:var(--muted-on-green); }
-  .section-light{ background:var(--parchment); color:var(--ink); }
-  .section-alt{ background:var(--parchment-2); color:var(--ink); }
-
-  /* ---------- nav ---------- */
-  header.nav{
-    position:sticky; top:0; z-index:100;
-    background:rgba(31,46,34,0.92);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line-on-green);
+  .label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
   }
-  .nav-inner{ max-width:1120px; margin:0 auto; padding:0 32px; height:68px; display:flex; align-items:center; justify-content:space-between; }
-  .nav-brand{ display:flex; align-items:center; gap:12px; color:var(--cream-text); text-decoration:none; }
-  .nav-brand img{ height:30px; width:30px; }
-  .nav-brand span{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; }
-  .nav-links{ display:flex; gap:30px; }
-  .nav-links a{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-on-green); text-decoration:none; transition:color .15s ease; }
-  .nav-links a:hover{ color:var(--gold-soft); }
-  .nav-toggle{ display:none; background:none; border:none; color:var(--cream-text); font-size:22px; cursor:pointer; }
-
-  /* ---------- ear-tag notch signature ---------- */
-  .notch{ position:relative; width:30px; height:40px; background:var(--maroon); border-radius:0 0 9px 9px; flex-shrink:0; }
-  .notch::before{ content:""; position:absolute; top:-8px; left:10px; width:9px; height:9px; border-radius:50%; background:inherit; }
-
-  /* ---------- hero ---------- */
-  .hero{ padding:120px 0 100px; overflow:hidden; }
-  .hero .rings{ position:absolute; right:-160px; top:-140px; width:600px; height:600px; border-radius:50%; border:1px solid var(--line-on-green); opacity:.5; pointer-events:none; }
-  .hero .rings::before, .hero .rings::after{ content:""; position:absolute; border-radius:50%; border:1px solid var(--line-on-green); }
-  .hero .rings::before{ inset:65px; }
-  .hero .rings::after{ inset:140px; }
-  .hero-inner{ position:relative; z-index:1; max-width:760px; }
-  .hero-kicker{ font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:20px; }
-  .hero h1{ font-size:clamp(40px,6vw,72px); }
-  .hero .sub{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(20px,2.4vw,28px); color:var(--gold-soft); margin-top:10px; }
-  .hero p.lede{ font-size:19px; line-height:1.55; color:var(--muted-on-green); max-width:640px; margin-top:22px; }
-  .hero-meta{ display:flex; flex-wrap:wrap; gap:40px; margin-top:48px; }
-  .hero-meta .item{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.05em; color:var(--muted-on-green); }
-  .hero-meta .item b{ display:block; font-family:'Inter',sans-serif; font-size:16px; color:var(--cream-text); font-weight:600; margin-top:5px; }
-
-  /* ---------- headings per section ---------- */
-  .section-head{ max-width:680px; margin-bottom:48px; }
-  .section-head h2{ font-size:clamp(30px,3.6vw,42px); margin-top:14px; }
-  .section-head p{ font-size:18px; margin-top:14px; }
-  .section-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
-
-  /* ---------- icon chips ---------- */
-  .icon-chip{ width:46px; height:46px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .section-light .icon-chip, .section-alt .icon-chip{ background:#fff; border:1px solid var(--line); }
-  .section-dark .icon-chip{ background:rgba(241,236,224,0.08); border:1px solid var(--line-on-green); }
-  .icon-chip svg{ width:23px; height:23px; }
-
-  /* ---------- benefit / problem cards ---------- */
-  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-  .card{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:28px; }
-  .section-dark .card{ background:rgba(241,236,224,0.06); border:1px solid var(--line-on-green); }
-  .card h3{ font-size:19px; margin-top:16px; }
-  .card p{ margin-top:8px; font-size:15px; }
-  .card .tag{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--maroon); }
-  .section-dark .card .tag{ color:var(--gold-soft); }
-
-  /* ---------- model flow diagram ---------- */
-  .flow{ display:flex; align-items:stretch; gap:0; flex-wrap:wrap; }
-  .flow .box{ flex:1; min-width:220px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:26px; }
-  .flow .arrow{ width:52px; display:flex; align-items:center; justify-content:center; color:var(--maroon); flex-shrink:0; }
-  .flow .box h3{ font-size:20px; margin-top:14px; }
-  .flow .box p{ font-size:14px; margin-top:6px; }
-  @media (max-width:820px){
-    .flow{ flex-direction:column; }
-    .flow .arrow{ width:100%; height:36px; transform:rotate(90deg); }
+  h1 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+    letter-spacing: 0.2px;
   }
-
-  .result-strip{ margin-top:28px; display:flex; align-items:center; gap:18px; background:var(--ink-green); color:var(--cream-text); border-radius:12px; padding:22px 26px; }
-  .result-strip p{ font-size:16px; }
-  .result-strip .icon-chip{ background:rgba(241,236,224,.1); border:1px solid var(--line-on-green); }
-
-  /* ---------- membership tiers ---------- */
-  .tier-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-  @media (max-width:760px){ .tier-grid{ grid-template-columns:1fr; } }
-  .tier-card{ border-radius:14px; padding:32px; border:1px solid var(--line); background:#fff; }
-  .tier-card.investor{ background:var(--ink-green); color:var(--cream-text); border-color:var(--ink-green); }
-  .tier-card .tier-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--maroon); }
-  .tier-card.investor .tier-label{ color:var(--gold-soft); }
-  .tier-card h3{ font-size:26px; margin:8px 0 16px; }
-  .tier-card ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
-  .tier-card ul li{ display:flex; gap:10px; font-size:15px; align-items:flex-start; }
-  .tier-card ul li svg{ width:16px; height:16px; margin-top:3px; flex-shrink:0; color:var(--maroon); }
-  .tier-card.investor ul li svg{ color:var(--gold-soft); }
-
-  /* ---------- economics ---------- */
-  .econ-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  @media (max-width:760px){ .econ-grid{ grid-template-columns:1fr; } }
-  .econ-card{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:26px; text-align:center; }
-  .econ-card.total{ background:var(--ink-green); color:var(--cream-text); border-color:var(--ink-green); }
-  .econ-card .amount{ font-family:'Fraunces',serif; font-weight:600; font-size:40px; color:var(--maroon); margin:10px 0 4px; }
-  .econ-card.total .amount{ color:var(--gold-soft); }
-  .econ-card .amount sup{ font-size:16px; top:-1.1em; }
-
-  .note-strip{ margin-top:24px; display:flex; align-items:center; gap:18px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:22px 26px; }
-  .note-strip p{ font-size:15.5px; }
-
-  /* ---------- charts ---------- */
-  .chart-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:28px 28px 16px; }
-  .chart-card h3{ font-size:20px; }
-  .chart-card .chart-note{ font-size:14px; margin-top:14px; }
-  .chart-box{ position:relative; height:320px; margin-top:18px; }
-  .chart-stack{ display:flex; flex-direction:column; gap:28px; }
-
-  /* ---------- interactive controls ---------- */
-  .controls-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:28px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:22px 26px; margin-bottom:28px; }
-  .control-group{ display:flex; flex-direction:column; gap:10px; }
-  .control-group .label{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
-  .scenario-toggle{ display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
-  .scenario-toggle button{ font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600; padding:9px 16px; border:none; background:#fff; color:var(--ink); cursor:pointer; transition:background .15s ease, color .15s ease; }
-  .scenario-toggle button + button{ border-left:1px solid var(--line); }
-  .scenario-toggle button.active{ background:var(--ink-green); color:var(--cream-text); }
-  .scenario-toggle button:hover:not(.active){ background:var(--parchment-2); }
-  .slider-group{ flex:1; min-width:220px; display:flex; flex-direction:column; gap:10px; }
-  .slider-group input[type="range"]{ width:100%; accent-color:var(--maroon); height:4px; }
-  .slider-readout{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); }
-  .slider-readout b{ color:var(--maroon); }
-  .chart-legend-hint{ font-size:12.5px; color:var(--muted); margin-top:8px; }
-
-  /* ---------- governance ---------- */
-  .gov-list{ display:grid; grid-template-columns:1fr 1fr; gap:26px 40px; }
-  @media (max-width:760px){ .gov-list{ grid-template-columns:1fr; } }
-  .gov-item{ display:flex; gap:16px; align-items:flex-start; }
-  .gov-item h4{ font-family:'Inter',sans-serif; font-weight:700; font-size:15.5px; margin-bottom:4px; }
-  .gov-item p{ font-size:14px; }
-
-  /* ---------- risk table ---------- */
-  .table-card{ background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  table.risk{ width:100%; border-collapse:collapse; }
-  table.risk th{ text-align:left; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--maroon); padding:16px 20px; border-bottom:1.5px solid var(--ink); }
-  table.risk td{ padding:18px 20px; border-bottom:1px solid var(--line); font-size:15px; vertical-align:top; }
-  table.risk tr:last-child td{ border-bottom:none; }
-  table.risk td.risk-name{ font-weight:600; width:28%; }
-
-  /* ---------- involvement / closing ---------- */
-  .ask-list{ display:flex; flex-direction:column; gap:26px; }
-  .ask-item{ display:flex; gap:20px; align-items:flex-start; }
-  .num-badge{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--gold); color:var(--ink-green); flex-shrink:0; }
-  .ask-item h4{ font-size:19px; margin-bottom:4px; }
-
-  .closing{ text-align:center; padding:110px 0; position:relative; overflow:hidden; }
-  .closing .rings{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:640px; height:640px; border-radius:50%; border:1px solid var(--line-on-green); opacity:.3; }
-  .closing .rings::before{ content:""; position:absolute; inset:70px; border-radius:50%; border:1px solid var(--line-on-green); }
-  .closing .rings::after{ content:""; position:absolute; inset:150px; border-radius:50%; border:1px solid var(--line-on-green); }
-  .closing-inner{ position:relative; z-index:1; max-width:700px; margin:0 auto; }
-  .closing img{ height:56px; width:56px; margin:0 auto 26px; }
-
-  footer{ background:var(--ink-green-2); color:var(--muted-on-green); padding:28px 0; }
-  .foot-inner{ display:flex; align-items:center; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.04em; }
-  .foot-inner .brand{ display:flex; align-items:center; gap:8px; }
-  .foot-inner img{ height:16px; width:16px; opacity:.85; }
-
-  @media (max-width:900px){
-    .grid-3{ grid-template-columns:1fr; }
-    .econ-grid{ grid-template-columns:1fr; }
-    .nav-links{ display:none; }
+  .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 22px;
   }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+  .status-dot.ready { background: var(--accent); }
+  .status-dot.error { background: var(--danger); }
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin: 16px 0 6px;
+  }
+  input {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--mono);
+    letter-spacing: 0.5px;
+  }
+  input:focus { outline: none; border-color: var(--accent-dim); }
+  button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #06231a;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  #recaptcha-container { margin-top: 14px; }
+  .log {
+    margin-top: 18px;
+    background: #0a0e13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    max-height: 140px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+  .log .ok { color: var(--accent); }
+  .log .err { color: var(--danger); }
+  .hint {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    border-top: 1px dashed var(--border);
+    padding-top: 12px;
+  }
+  #step-code { display: none; }
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="nav-inner">
-    <a class="nav-brand" href="#top">
-      <img src="https://res.cloudinary.com/dpymwa41m/image/upload/v1784023246/android-chrome-512x512_x2ld4i.png" alt="Imfuyo logo">
-      <span>Imfuyo Mbuziplus</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#what-is-czu">What is a CZU</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#membership">Membership</a>
-      <a href="#numbers">The numbers</a>
-      <a href="#growth">Growth</a>
-      <a href="#protection">Protection</a>
-    </nav>
+<div class="card">
+  <div class="label-row">
+    <div>
+      <h1>Phone Auth Test Harness</h1>
+      <p class="sub">bernardnjathi1 — test numbers only</p>
+    </div>
+    <div class="status-dot" id="statusDot"></div>
   </div>
-</header>
 
-<!-- ============ HERO ============ -->
-<section class="section-dark hero" id="top">
-  <div class="rings"></div>
-  <div class="wrap hero-inner">
-    <div class="hero-kicker">Communal Zero-Grazing Units</div>
-    <h1>Imfuyo Mbuziplus</h1>
-    <div class="sub">One plot of land. Many owners. Five years of compounding growth.</div>
-    <p class="lede">Mbuziplus already works — two goats, one zero-grazing unit, a proven husbandry model. A Communal Zero-Grazing Unit (CZU) takes that same model and lets a whole congregation own it together, whether or not any single member has land of their own.</p>
-    <div class="hero-meta">
-      <div class="item">Pilot cohort<b>20–30 members</b></div>
-      <div class="item">Minimum horizon<b>5 years</b></div>
-      <div class="item">Entry point<b>KSH 90,000</b></div>
-    </div>
+  <div id="step-phone">
+    <label for="phone">Phone number (E.164)</label>
+    <input id="phone" type="text" placeholder="+254712345678" />
+    <div id="recaptcha-container"></div>
+    <button id="sendBtn">Send OTP</button>
   </div>
-</section>
 
-<!-- ============ WHAT IS A CZU / WHO IT'S FOR ============ -->
-<section class="section-light" id="what-is-czu">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">What is a CZU</div>
-      <h2>Land is the bottleneck. Appetite was never the problem.</h2>
-      <p class="muted">The standard Mbuziplus model stops at the fence of whoever owns land. A CZU removes that fence — one shared enterprise, built on a single leased plot, open to anyone who wants in.</p>
-    </div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-6h4v6"/></svg></div>
-        <div class="tag">Urban congregant</div>
-        <h3>Capital, no homestead</h3>
-        <p class="muted">Has the means and the interest but nowhere to keep livestock. A CZU gives them a stake without a farm.</p>
-      </div>
-      <div class="card">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v4"/><path d="M5 8h14l1 5H4z"/><path d="M6 13v7h12v-7"/></svg></div>
-        <div class="tag">Diaspora member</div>
-        <h3>A stake back home</h3>
-        <p class="muted">Wants ownership in Kenya but has no one on the ground to manage a single unit for them.</p>
-      </div>
-      <div class="card">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6"/></svg></div>
-        <div class="tag">Willing farmer</div>
-        <h3>Work, at real scale</h3>
-        <p class="muted">Ready to do the hands-on work, but a single homestead can't absorb enough capital to grow fast alone.</p>
-      </div>
-    </div>
+  <div id="step-code">
+    <label for="code">4-digit code</label>
+    <input id="code" type="text" inputmode="numeric" maxlength="6" placeholder="1234" />
+    <button id="verifyBtn">Verify</button>
+    <button id="resetBtn" class="secondary">Start over</button>
   </div>
-</section>
 
-<!-- ============ HOW IT WORKS ============ -->
-<section class="section-alt" id="how-it-works">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">How it works</div>
-      <h2>One piece of church land. Three contributors.</h2>
-      <p class="muted">A central plot — ideally PCEA church land — hosts one shared zero-grazing enterprise. The church contributes land, members contribute capital, Mbuziplus contributes the livestock, housing and husbandry systems.</p>
-    </div>
+  <div class="log" id="log">Waiting for Firebase to initialize…</div>
 
-    <div class="flow">
-      <div class="box">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v4"/><path d="M9 6h6"/><path d="M6 22V10l6-4 6 4v12"/><path d="M10 22v-6h4v6"/></svg></div>
-        <div class="tag mono">Church</div>
-        <h3>Land and standing</h3>
-        <p class="muted">Leases the site and lends its trust network to help recruit the founding cohort.</p>
-      </div>
-      <div class="arrow"><svg width="34" height="16" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h30M24 2l6 6-6 6"/></svg></div>
-      <div class="box">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 .9 3 2.2c0 3-6 1.6-6 4.6 0 1.3 1.3 2.2 3 2.2s3-1.1 3-2.5"/></svg></div>
-        <div class="tag mono">Members</div>
-        <h3>Capital and labour</h3>
-        <p class="muted">20–30 congregants fund the entry costs and share the ongoing running costs.</p>
-      </div>
-      <div class="arrow"><svg width="34" height="16" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h30M24 2l6 6-6 6"/></svg></div>
-      <div class="box">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="9" r="3.2"/><circle cx="17" cy="15" r="3.2"/><path d="M6 21c0-2.8 1.3-4.3 3-4.3s3 1.5 3 4.3M14 21c0-2.2 1.4-3.6 3-3.6s3 1.4 3 3.6"/></svg></div>
-        <div class="tag mono">Mbuziplus</div>
-        <h3>Livestock and systems</h3>
-        <p class="muted">Supplies the goats, housing, husbandry protocol and links to buyers.</p>
-      </div>
-    </div>
-
-    <div class="result-strip">
-      <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-soft)" stroke-width="1.6" stroke-linecap="round"><path d="M4 19V9l8-6 8 6v10"/><path d="M9 19v-6h6v6"/></svg></div>
-      <p><b>Together, these form one CZU</b> — a single enterprise, jointly owned, run to a five-year growth plan.</p>
-    </div>
+  <div class="hint">
+    Add the number + code pair under Firebase Console → Authentication → Sign-in method → Phone → "Phone numbers for testing" first. This page won't send real SMS for those numbers, and won't consume SMS quota.
   </div>
-</section>
+</div>
 
-<!-- ============ MEMBERSHIP ============ -->
-<section class="section-light" id="membership">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Membership</div>
-      <h2>Built for the farmer, and for the farmer at heart.</h2>
-      <p class="muted">Not every congregant wants to show up and feed goats — and not every one can. Two tiers let the CZU take in both kinds of member without diluting either.</p>
-    </div>
-    <div class="tier-grid">
-      <div class="tier-card">
-        <div class="tier-label">Tier one</div>
-        <h3>On-site member</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Lives near the unit and contributes labour toward feed, security and upkeep</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Reduced cash contribution in exchange for hands-on work</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> First in line for napier and fodder-growing income</li>
-        </ul>
-      </div>
-      <div class="tier-card investor">
-        <div class="tier-label">Tier two</div>
-        <h3>Investor member</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Urban or diaspora — capital only, no labour required</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Pays the full pooled cash contribution and stays fully passive</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Gets quarterly reporting on their unit, like a SACCO statement, for goats</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import {
+    getAuth,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
+  } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
-<!-- ============ THE NUMBERS ============ -->
-<section class="section-alt" id="numbers">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">The numbers</div>
-      <h2>What it costs to join the first cohort.</h2>
-      <p class="muted">Figures below are per member, for a founding cohort of 20–30 people. Entry can be financed or self-funded; running costs are shared and step down over time.</p>
-    </div>
-    <div class="econ-grid">
-      <div class="econ-card">
-        <div class="tag mono" style="color:var(--maroon)">Housing share</div>
-        <div class="amount">30<sup>K</sup></div>
-        <p class="muted" style="font-size:13.5px;">KSH toward the shared zero-grazing housing structure</p>
-      </div>
-      <div class="econ-card">
-        <div class="tag mono" style="color:var(--maroon)">Mbuziplus package</div>
-        <div class="amount">60<sup>K</sup></div>
-        <p class="muted" style="font-size:13.5px;">Two goats plus the zero-grazing unit itself</p>
-      </div>
-      <div class="econ-card total">
-        <div class="tag mono" style="color:var(--gold-soft)">Total entry</div>
-        <div class="amount">90<sup>K</sup></div>
-        <p style="font-size:13.5px; color:var(--muted-on-green);">Per member — financed or paid directly</p>
-      </div>
-    </div>
-    <div class="note-strip">
-      <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M3 11h18"/><circle cx="7" cy="15" r="1"/></svg></div>
-      <p><b>Plus about KSH 10,000 a month, pooled.</b> Covers feed, labour, security, electricity, water and a credit-loan repayment for the cohort — split across all 20–30 members, not carried by one household alone.</p>
-    </div>
-  </div>
-</section>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB3ZasO4mtLExSmFb_tpIWKj59STuG5Q4M",
+    authDomain: "bernardnjathi1.firebaseapp.com",
+    projectId: "bernardnjathi1",
+    storageBucket: "bernardnjathi1.firebasestorage.app",
+    messagingSenderId: "787031498701",
+    appId: "1:787031498701:web:09bc32d61f031181d7ee84"
+  };
 
-<!-- ============ GROWTH ============ -->
-<section class="section-light" id="growth">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Growth over time</div>
-      <h2>What changes between year one and year five.</h2>
-      <p class="muted">Three illustrative curves for discussion: the monthly contribution falls as the enterprise matures, revenue builds across three streams, and each year can add a fresh cohort onto the model.</p>
-    </div>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    <div class="chart-stack">
-      <div class="chart-card">
-        <h3>Monthly contribution falls as the unit matures</h3>
-        <p class="muted" style="font-size:14.5px; margin-top:6px;">As napier and fodder come online, group debt is retired, and manure and milk income begin covering running costs, the pooled monthly ask per member drops sharply.</p>
-        <div class="chart-box"><canvas id="chartContribution"></canvas></div>
-        <p class="chart-note muted">Illustrative projection for discussion — actual pace depends on fodder yield, offtake prices and cohort size.</p>
-      </div>
+  const logEl = document.getElementById("log");
+  const statusDot = document.getElementById("statusDot");
+  const phoneStep = document.getElementById("step-phone");
+  const codeStep = document.getElementById("step-code");
+  const sendBtn = document.getElementById("sendBtn");
+  const verifyBtn = document.getElementById("verifyBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const phoneInput = document.getElementById("phone");
+  const codeInput = document.getElementById("code");
 
-      <div class="chart-card">
-        <h3>Three revenue lines, compounding together</h3>
-        <p class="muted" style="font-size:14.5px; margin-top:6px;">Manure income arrives first. Milk — collected centrally and sold under the Billy's flavoured line plus retail offtakers near hospitals and estates — becomes the largest driver by year three. Goat sales round out the mix.</p>
-        <div class="chart-box"><canvas id="chartRevenue"></canvas></div>
-        <p class="chart-note muted">Figures in KSH ('000s), illustrative — for planning discussion, not a guaranteed return.</p>
-      </div>
+  let confirmationResult = null;
 
-      <div class="chart-card">
-        <h3>Built to add a new cohort every year</h3>
-        <p class="muted" style="font-size:14.5px; margin-top:6px;">The pilot proves the model at 20–30 members on one plot. Each following year can add a fresh cohort onto the same site's spare capacity, then onto additional church land as it becomes available.</p>
-        <div class="chart-box"><canvas id="chartScale"></canvas></div>
-      </div>
-    </div>
-  </div>
-</section>
+  function log(msg, kind) {
+    const line = document.createElement("div");
+    line.textContent = "› " + msg;
+    if (kind) line.className = kind;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
 
-<!-- ============ PROTECTION / GOVERNANCE ============ -->
-<section class="section-alt" id="protection">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Protection</div>
-      <h2>How members' money — and the church's name — are protected.</h2>
-    </div>
-    <div class="gov-list">
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7z"/></svg></div>
-        <div><h4>Formal legal wrapper</h4><p class="muted">Registered as an investment club or SACCO-style entity, with the church named as land partner.</p></div>
-      </div>
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div>
-        <div><h4>Ring-fenced funds</h4><p class="muted">Member contributions held by a named custodian, separate from any one person's control.</p></div>
-      </div>
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v4M4.9 4.9l2.8 2.8M2 12h4M4.9 19.1l2.8-2.8M12 18v4M16.3 16.3l2.8 2.8M18 12h4M16.3 7.7l2.8-2.8"/></svg></div>
-        <div><h4>Insurance from year two</h4><p class="muted">An annual premium covers herd loss once the pilot's first debts are serviced.</p></div>
-      </div>
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 19V9l8-6 8 6v10"/><path d="M9 22v-6h6v6"/></svg></div>
-        <div><h4>Defined lease term</h4><p class="muted">Land agreement with the church set for a minimum of five years, with renewal terms agreed upfront.</p></div>
-      </div>
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 8v5l3 3"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <div><h4>Quarterly reporting</h4><p class="muted">Every member, on-site or investor, receives a statement on their unit's health and output.</p></div>
-      </div>
-      <div class="gov-item">
-        <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div>
-        <div><h4>Defined exit terms</h4><p class="muted">A clear process and timeline for any member who needs to exit before the five-year horizon.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+  function setReady() {
+    statusDot.classList.add("ready");
+    log("Firebase initialized. reCAPTCHA ready.", "ok");
+  }
 
-<!-- ============ RISK ============ -->
-<section class="section-light">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Risk and mitigation</div>
-      <h2>Named risks, named responses.</h2>
-    </div>
-    <div class="table-card">
-      <table class="risk">
-        <tr><th>Risk</th><th>Mitigation</th></tr>
-        <tr><td class="risk-name">Disease / mortality</td><td>Insurance premium from year two, plus a standing vet protocol from day one of the pilot.</td></tr>
-        <tr><td class="risk-name">Milk price volatility</td><td>Central collection point sells to multiple offtakers, plus the Billy's flavoured retail line — no single buyer.</td></tr>
-        <tr><td class="risk-name">Land lease renewal</td><td>Five-year minimum term agreed with the church upfront, with renewal conditions set before the pilot starts.</td></tr>
-        <tr><td class="risk-name">Single offtaker dependency</td><td>Retail expansion around hospitals and estates begins in year two, alongside the primary offtaker.</td></tr>
-        <tr><td class="risk-name">Cohort default on contributions</td><td>Group credit facility and staged entry (financed or self-paid) absorb early shortfalls without stalling the unit.</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
+  function setError() {
+    statusDot.classList.add("error");
+  }
 
-<!-- ============ GETTING INVOLVED ============ -->
-<section class="section-dark">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Getting involved</div>
-      <h2>What a CZU asks of a host church.</h2>
-    </div>
-    <div class="ask-list">
-      <div class="ask-item">
-        <div class="num-badge">1</div>
-        <div><h4>Lease of a central plot</h4><p class="muted" style="max-width:620px;">The church retains ownership throughout; a defined lease term and a share of enterprise revenue return to it.</p></div>
-      </div>
-      <div class="ask-item">
-        <div class="num-badge">2</div>
-        <div><h4>Endorsement to the congregation</h4><p class="muted" style="max-width:620px;">Support in recruiting the first cohort of 20–30 members from within the church's own trust network.</p></div>
-      </div>
-      <div class="ask-item">
-        <div class="num-badge">3</div>
-        <div><h4>A seat in governance</h4><p class="muted" style="max-width:620px;">A formal role overseeing the enterprise, protecting both the church's name and its members' interests.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+  let recaptchaVerifier;
+  try {
+    recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      size: "normal",
+      callback: () => log("reCAPTCHA solved.", "ok")
+    });
+    recaptchaVerifier.render().then(setReady).catch((e) => {
+      log("reCAPTCHA render failed: " + e.message, "err");
+      setError();
+    });
+  } catch (e) {
+    log("Init error: " + e.message, "err");
+    setError();
+  }
 
-<!-- ============ CLOSING ============ -->
-<section class="section-dark closing">
-  <div class="rings"></div>
-  <div class="wrap closing-inner">
-    <img src="https://res.cloudinary.com/dpymwa41m/image/upload/v1784023246/android-chrome-512x512_x2ld4i.png" alt="Imfuyo logo">
-    <h2 style="font-size:clamp(28px,4vw,40px);">One shared unit. A five-year horizon. Growth the whole congregation can share in.</h2>
-    <p class="muted" style="margin-top:16px; font-size:17px;">Imfuyo Mbuziplus — Communal Zero-Grazing Units</p>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap foot-inner">
-    <div class="brand"><img src="https://res.cloudinary.com/dpymwa41m/image/upload/v1784023246/android-chrome-512x512_x2ld4i.png" alt=""> Imfuyo Mbuziplus</div>
-    <div>Communal Zero-Grazing Units</div>
-  </div>
-</footer>
-
-<script>
-  Chart.defaults.font.family = "'Inter', sans-serif";
-  Chart.defaults.color = '#6E6A58';
-
-  new Chart(document.getElementById('chartContribution'), {
-    type:'line',
-    data:{
-      labels:['Y1 Q1','Y1 Q2','Y1 Q3','Y1 Q4','Year 2','Year 3','Year 4','Year 5'],
-      datasets:[{
-        label:'Pooled monthly contribution (KSH)',
-        data:[10000,10000,7000,7000,4000,2000,1000,500],
-        borderColor:'#6B2330',
-        backgroundColor:'rgba(107,35,48,0.12)',
-        pointBackgroundColor:'#6B2330',
-        pointRadius:5,
-        borderWidth:3,
-        fill:true,
-        tension:.35
-      }]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false} },
-      scales:{
-        y:{ beginAtZero:true, grid:{color:'#DCD3BB'}, ticks:{ callback:(v)=> 'KSH ' + v.toLocaleString() } },
-        x:{ grid:{display:false} }
-      }
+  sendBtn.addEventListener("click", async () => {
+    const phone = phoneInput.value.trim();
+    if (!phone.startsWith("+")) {
+      log("Use E.164 format, e.g. +254712345678", "err");
+      return;
+    }
+    sendBtn.disabled = true;
+    log("Sending OTP request to " + phone + " …");
+    try {
+      confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+      log("OTP sent (or test code ready). Enter the code below.", "ok");
+      phoneStep.style.display = "none";
+      codeStep.style.display = "block";
+    } catch (e) {
+      log("Send failed: " + e.code + " — " + e.message, "err");
+      sendBtn.disabled = false;
     }
   });
 
-  new Chart(document.getElementById('chartRevenue'), {
-    type:'bar',
-    data:{
-      labels:['Year 1','Year 2','Year 3','Year 4','Year 5'],
-      datasets:[
-        { label:'Manure', data:[20,60,90,120,150], backgroundColor:'#B98B3E' },
-        { label:"Milk (Billy's + offtakers)", data:[0,150,400,700,1100], backgroundColor:'#6B2330' },
-        { label:'Goat sales', data:[30,80,150,220,300], backgroundColor:'#334A38' },
-        { label:'Retail expansion', data:[0,20,60,120,200], backgroundColor:'#DDBD82' }
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, usePointStyle:true, pointStyle:'circle' } } },
-      scales:{
-        x:{ stacked:true, grid:{display:false} },
-        y:{ stacked:true, grid:{color:'#DCD3BB'}, ticks:{ callback:(v)=> 'KSH ' + v + 'K' } }
-      }
+  verifyBtn.addEventListener("click", async () => {
+    const code = codeInput.value.trim();
+    if (!confirmationResult) {
+      log("No pending confirmation — send an OTP first.", "err");
+      return;
+    }
+    verifyBtn.disabled = true;
+    try {
+      const result = await confirmationResult.confirm(code);
+      log("Verified ✓ uid: " + result.user.uid, "ok");
+    } catch (e) {
+      log("Verify failed: " + e.code + " — " + e.message, "err");
+    } finally {
+      verifyBtn.disabled = false;
     }
   });
 
-  new Chart(document.getElementById('chartScale'), {
-    type:'bar',
-    data:{
-      labels:['Year 1','Year 2','Year 3','Year 4','Year 5'],
-      datasets:[
-        { label:'Cumulative members', data:[25,55,95,155,235], backgroundColor:'#334A38', borderRadius:6, order:2, yAxisID:'y' },
-        { label:'Cumulative cohorts', data:[1,2,3,4,5], type:'line', borderColor:'#6B2330', backgroundColor:'#6B2330', borderWidth:3, pointRadius:5, order:1, yAxisID:'y1' }
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, usePointStyle:true, pointStyle:'circle' } } },
-      scales:{
-        x:{ grid:{display:false} },
-        y:{ position:'left', beginAtZero:true, grid:{color:'#DCD3BB'}, title:{display:true, text:'Members'} },
-        y1:{ position:'right', beginAtZero:true, grid:{display:false}, title:{display:true, text:'Cohorts'}, ticks:{stepSize:1} }
-      }
-    }
+  resetBtn.addEventListener("click", () => {
+    confirmationResult = null;
+    codeInput.value = "";
+    phoneInput.value = "";
+    sendBtn.disabled = false;
+    codeStep.style.display = "none";
+    phoneStep.style.display = "block";
+    log("Reset. Ready for a new number.");
   });
 </script>
+
 </body>
 </html>
