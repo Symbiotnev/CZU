@@ -6,31 +6,30 @@
 <title>Saumed Gyna Care — Precision Care, Compassionate Hands</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
 <style>
-  /* ============================================
-     TOKENS
-     ============================================ */
   :root{
-    --plum-900:#2E1030;
-    --plum-800:#3D1638;
-    --plum-700:#551D4D;
-    --rose-500:#E48FB3;
-    --rose-300:#F3C3D8;
-    --blush-50:#FDF7FA;
-    --ink-900:#231121;
-    --ink-600:#5C4C59;
-    --ink-400:#8A7787;
-    --line:#EFE1EA;
-    --white:#FFFFFF;
+    --ink:#1E1420;
+    --plum:#43163C;
+    --plum-deep:#2B0E27;
+    --rose:#C87F9E;
+    --rose-soft:#E9C7D6;
+    --rose-pale:#F5E3EB;
+    --cream:#FAF3EC;
+    --paper:#FFFDFA;
+    --brass:#B08D57;
+    --brass-soft:#D9C39C;
+    --ink-soft:#6E5F6A;
+    --ink-faint:#A398A1;
+    --line:#E9DFE4;
 
-    --font-display:'Montserrat', sans-serif;
-    --font-body:'Inter', sans-serif;
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
 
     --ease:cubic-bezier(.22,.61,.36,1);
-    --nav-h:84px;
+    --nav-h:88px;
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -41,11 +40,12 @@
   }
 
   body{
-    font-family:var(--font-body);
-    color:var(--ink-900);
-    background:var(--blush-50);
-    line-height:1.6;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.65;
     overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
 
   img{max-width:100%;display:block;}
@@ -54,566 +54,350 @@
   button{font-family:inherit;border:none;background:none;cursor:pointer;}
 
   h1,h2,h3,h4{
-    font-family:var(--font-display);
-    font-weight:700;
-    line-height:1.15;
-    color:var(--plum-900);
+    font-family:var(--serif);
+    font-weight:500;
+    line-height:1.12;
+    color:var(--plum-deep);
+    letter-spacing:-.01em;
   }
 
   .container{
     width:100%;
-    max-width:1180px;
+    max-width:1200px;
     margin:0 auto;
-    padding:0 32px;
+    padding:0 40px;
   }
 
-  :focus-visible{
-    outline:2px solid var(--rose-500);
-    outline-offset:3px;
-  }
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:3px; }
 
-  /* ============================================
-     ICONS (inline stroke-style, consistent set)
-     ============================================ */
-  .icon{width:22px;height:22px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .icon{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
 
-  /* ============================================
-     NAVBAR — transparent, solidifies on scroll
-     ============================================ */
-  .navbar{
-    position:fixed;
-    top:0; left:0; right:0;
-    height:var(--nav-h);
-    z-index:200;
-    display:flex;
-    align-items:center;
-    background:transparent;
-    transition:background .4s var(--ease), box-shadow .4s var(--ease), height .3s var(--ease);
-  }
-  .navbar.solid{
-    background:rgba(255,255,255,.92);
-    backdrop-filter:blur(10px);
-    box-shadow:0 6px 24px rgba(46,16,48,.07);
-    height:72px;
-  }
-  .navbar .container{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .nav-logo{display:flex;align-items:center;gap:10px;}
-  .nav-logo img{height:42px;width:auto;transition:filter .4s var(--ease);}
-  .nav-logo span{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:1.05rem;
-    color:var(--white);
-    letter-spacing:.2px;
-    transition:color .4s var(--ease);
-  }
-  .navbar.solid .nav-logo span{color:var(--plum-900);}
-
-  .nav-links{display:flex;align-items:center;gap:38px;}
-  .nav-links a{
-    font-size:.95rem;
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:.86rem;
     font-weight:500;
-    color:var(--white);
-    position:relative;
-    padding:4px 0;
-    transition:color .4s var(--ease);
-  }
-  .navbar.solid .nav-links a{color:var(--ink-600);}
-  .nav-links a::after{
-    content:'';
-    position:absolute;
-    left:0; bottom:-2px;
-    width:0; height:2px;
-    background:var(--rose-500);
-    transition:width .3s var(--ease);
-  }
-  .nav-links a:hover::after{width:100%;}
-  .nav-links a:hover{color:var(--rose-300);}
-  .navbar.solid .nav-links a:hover{color:var(--plum-700);}
-
-  .nav-cta{
-    padding:11px 24px;
-    border-radius:100px;
-    background:var(--rose-500);
-    color:var(--white) !important;
-    font-weight:600;
-    font-size:.9rem;
-    transition:background .3s var(--ease), transform .3s var(--ease);
-  }
-  .nav-cta::after{display:none;}
-  .nav-cta:hover{background:var(--plum-700);transform:translateY(-1px);}
-
-  .nav-toggle{display:none;width:26px;height:20px;position:relative;z-index:10;}
-  .nav-toggle span{
-    position:absolute;left:0;right:0;height:2px;background:var(--white);
-    transition:transform .3s var(--ease), opacity .3s var(--ease), background .3s var(--ease);
-  }
-  .navbar.solid .nav-toggle span{background:var(--plum-900);}
-  .nav-toggle span:nth-child(1){top:0;}
-  .nav-toggle span:nth-child(2){top:9px;}
-  .nav-toggle span:nth-child(3){top:18px;}
-  .nav-toggle.open span:nth-child(1){transform:translateY(9px) rotate(45deg);}
-  .nav-toggle.open span:nth-child(2){opacity:0;}
-  .nav-toggle.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}
-
-  /* ============================================
-     HERO — pinned, slide-up next section covers it
-     ============================================ */
-  .hero-wrap{
-    position:relative;
-    height:100vh;
-  }
-  .hero{
-    position:sticky;
-    top:0;
-    height:100vh;
-    width:100%;
+    color:var(--brass);
     display:flex;
-    align-items:center;
-    overflow:hidden;
-    background:
-      linear-gradient(100deg, rgba(46,16,48,.88) 0%, rgba(46,16,48,.55) 42%, rgba(46,16,48,.12) 68%),
-      url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=1974&auto=format&fit=crop') center/cover no-repeat;
-  }
-  .hero-content{
-    position:relative;
-    z-index:2;
-    max-width:560px;
-    padding-left:32px;
-  }
-  .hero-eyebrow{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    color:var(--rose-300);
-    font-size:.92rem;
-    font-weight:500;
-    margin-bottom:22px;
-  }
-  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--rose-500);}
-  .hero h1{
-    font-size:clamp(2.4rem, 4.6vw, 3.6rem);
-    color:var(--white);
-    margin-bottom:22px;
-  }
-  .hero p{
-    color:rgba(255,255,255,.86);
-    font-size:1.08rem;
-    max-width:460px;
-    margin-bottom:34px;
-  }
-  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
-  .btn{
-    display:inline-flex;
     align-items:center;
     gap:10px;
-    padding:15px 28px;
-    border-radius:100px;
-    font-weight:600;
-    font-size:.95rem;
-    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    margin-bottom:20px;
   }
-  .btn-primary{background:var(--rose-500);color:var(--white);}
-  .btn-primary:hover{background:var(--white);color:var(--plum-800);transform:translateY(-2px);box-shadow:0 14px 30px rgba(228,143,179,.35);}
-  .btn-ghost{
-    background:rgba(255,255,255,.08);
-    border:1.5px solid rgba(255,255,255,.5);
-    color:var(--white);
+  .eyebrow::before{ content:''; width:26px; height:1px; background:var(--brass); }
+
+  /* NAVBAR */
+  .navbar{
+    position:fixed; top:0; left:0; right:0; height:var(--nav-h); z-index:200;
+    display:flex; align-items:center; background:transparent;
+    transition:background .45s var(--ease), box-shadow .45s var(--ease), height .35s var(--ease), border-color .45s var(--ease);
+    border-bottom:1px solid transparent;
   }
-  .btn-ghost:hover{background:rgba(255,255,255,.18);transform:translateY(-2px);}
+  .navbar.solid{
+    background:rgba(250,243,236,.94);
+    backdrop-filter:blur(10px);
+    height:76px;
+    border-bottom-color:var(--line);
+  }
+  .navbar .container{ display:flex; align-items:center; justify-content:space-between; }
+  .nav-logo{ display:flex; align-items:center; gap:12px; }
+  .nav-logo img{ height:40px; width:auto; }
+  .nav-logo span{ font-family:var(--serif); font-weight:500; font-size:1.15rem; color:var(--paper); transition:color .45s var(--ease); }
+  .navbar.solid .nav-logo span{ color:var(--plum-deep); }
+
+  .nav-links{ display:flex; align-items:center; gap:40px; }
+  .nav-links a{ font-size:.94rem; font-weight:500; color:var(--paper); position:relative; padding:4px 0; transition:color .45s var(--ease); }
+  .navbar.solid .nav-links a{ color:var(--ink-soft); }
+  .nav-links a:not(.nav-cta)::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:0; height:1px; background:var(--brass);
+    transition:width .3s var(--ease);
+  }
+  .nav-links a:not(.nav-cta):hover::after{ width:100%; }
+  .nav-links a:not(.nav-cta):hover{ color:var(--brass-soft); }
+  .navbar.solid .nav-links a:not(.nav-cta):hover{ color:var(--brass); }
+
+  .nav-cta{
+    padding:11px 24px; border-radius:2px; background:transparent;
+    border:1px solid var(--paper); color:var(--paper) !important; font-weight:500; font-size:.9rem;
+    transition:background .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease);
+  }
+  .navbar.solid .nav-cta{ border-color:var(--plum-deep); color:var(--plum-deep) !important; }
+  .nav-cta:hover{ background:var(--brass); border-color:var(--brass); color:var(--paper) !important; }
+
+  .nav-toggle{ display:none; width:26px; height:18px; position:relative; z-index:10; }
+  .nav-toggle span{ position:absolute; left:0; right:0; height:1.5px; background:var(--paper); transition:transform .3s var(--ease), opacity .3s var(--ease), background .3s var(--ease); }
+  .navbar.solid .nav-toggle span{ background:var(--plum-deep); }
+  .nav-toggle span:nth-child(1){ top:0; }
+  .nav-toggle span:nth-child(2){ top:8px; }
+  .nav-toggle span:nth-child(3){ top:16px; }
+  .nav-toggle.open span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+
+  /* HERO */
+  .hero-wrap{ position:relative; height:100vh; }
+  .hero{
+    position:sticky; top:0; height:100vh; width:100%;
+    display:flex; align-items:center;
+    background:var(--plum-deep);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:relative; z-index:2; width:100%;
+    display:grid; grid-template-columns:1fr .95fr; align-items:center; gap:40px;
+  }
+  .hero-copy{ padding-left:40px; }
+  .hero h1{
+    font-size:clamp(2.6rem, 4.4vw, 3.9rem);
+    color:var(--paper);
+    max-width:560px;
+    margin-bottom:26px;
+  }
+  .hero-copy > p{
+    color:rgba(250,243,236,.72);
+    font-size:1.08rem;
+    max-width:420px;
+    margin-bottom:38px;
+  }
+  .hero-actions{ display:flex; gap:18px; flex-wrap:wrap; align-items:center; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; padding:15px 30px;
+    border-radius:2px; font-weight:500; font-size:.92rem;
+    transition:transform .35s var(--ease), background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+  }
+  .btn-primary{ background:var(--brass); color:var(--plum-deep); }
+  .btn-primary:hover{ background:var(--rose-soft); transform:translateY(-2px); }
+  .btn-text{ color:var(--paper); border-bottom:1px solid rgba(250,243,236,.4); padding:15px 2px; border-radius:0; }
+  .btn-text:hover{ border-color:var(--brass); color:var(--brass-soft); }
+
+  .hero-frame{ position:relative; height:66vh; max-height:600px; }
+  .hero-frame .frame-photo{ position:absolute; inset:0 24px 24px 0; overflow:hidden; }
+  .hero-frame .frame-photo img{ width:100%; height:100%; object-fit:cover; }
+  .hero-frame .frame-outline{ position:absolute; inset:24px 0 0 24px; border:1px solid var(--brass-soft); pointer-events:none; }
+  .hero-tick{
+    position:absolute; left:0; bottom:-2px; z-index:3;
+    display:flex; align-items:center; gap:10px;
+    color:rgba(250,243,236,.6); font-size:.78rem; letter-spacing:.02em;
+  }
+  .hero-tick svg{ width:80px; height:16px; }
 
   .hero-scroll-cue{
-    position:absolute;
-    bottom:36px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:2;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-    color:rgba(255,255,255,.75);
-    font-size:.78rem;
-    letter-spacing:.5px;
+    position:absolute; bottom:34px; right:40px; z-index:2;
+    display:flex; align-items:center; gap:10px;
+    color:rgba(250,243,236,.55); font-size:.78rem;
   }
-  .hero-scroll-cue .line{width:1px;height:34px;background:rgba(255,255,255,.5);overflow:hidden;position:relative;}
+  .hero-scroll-cue .line{ width:32px; height:1px; background:rgba(250,243,236,.4); position:relative; overflow:hidden; }
   .hero-scroll-cue .line::after{
-    content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;
-    background:var(--rose-300);
-    animation:cueDrop 1.8s var(--ease) infinite;
+    content:''; position:absolute; left:-100%; top:0; width:100%; height:100%;
+    background:var(--brass); animation:cueSlide 2s var(--ease) infinite;
   }
-  @keyframes cueDrop{
-    0%{top:-100%;}
-    60%{top:100%;}
-    100%{top:100%;}
-  }
+  @keyframes cueSlide{ 0%{left:-100%;} 55%{left:100%;} 100%{left:100%;} }
 
-  /* ============================================
-     SLIDE-UP REVEAL WRAPPER
-     ============================================ */
-  .reveal-panel{
-    position:relative;
-    z-index:10;
-    background:var(--blush-50);
-    border-radius:32px 32px 0 0;
-    box-shadow:0 -24px 60px rgba(46,16,48,.18);
-  }
+  /* REVEAL PANEL */
+  .reveal-panel{ position:relative; z-index:10; background:var(--cream); }
+  .reveal-lip{ height:32px; background:var(--cream); clip-path:polygon(0 100%, 100% 100%, 100% 40%, 0 100%); margin-top:-1px; }
 
-  /* ============================================
-     INTRO STRIP
-     ============================================ */
-  .intro{
-    padding:100px 0 70px;
-    text-align:left;
-  }
-  .intro .tag{
-    display:inline-block;
-    color:var(--rose-500);
-    font-weight:600;
-    font-size:.92rem;
-    margin-bottom:16px;
-  }
-  .intro h2{
-    font-size:clamp(1.8rem, 3vw, 2.4rem);
-    max-width:680px;
-    margin-bottom:22px;
-  }
-  .intro p{
-    max-width:600px;
-    color:var(--ink-600);
-    font-size:1.02rem;
-  }
+  /* DUALITY */
+  .duality{ padding:110px 0 100px; }
+  .duality-grid{ display:grid; grid-template-columns:.95fr 1.05fr; gap:80px; }
+  .duality-head h2{ font-size:clamp(1.9rem, 3vw, 2.5rem); margin-bottom:24px; max-width:420px; }
+  .duality-head p{ color:var(--ink-soft); max-width:400px; font-size:1.02rem; }
 
-  /* ============================================
-     STATS
-     ============================================ */
-  .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:56px;
-  }
-  .stat{
-    background:var(--white);
-    padding:34px 24px;
-    text-align:left;
-  }
-  .stat .num{
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:2.4rem;
-    color:var(--plum-800);
-    display:flex;
-    align-items:baseline;
-    gap:2px;
-  }
-  .stat .label{
-    color:var(--ink-400);
-    font-size:.88rem;
-    margin-top:6px;
-  }
+  .chart-list{ margin-top:44px; }
+  .chart-row{ display:flex; align-items:baseline; justify-content:space-between; gap:20px; padding:20px 0; border-top:1px solid var(--line); }
+  .chart-row:last-child{ border-bottom:1px solid var(--line); }
+  .chart-num{ font-family:var(--serif); font-weight:500; font-size:2.1rem; color:var(--brass); flex-shrink:0; min-width:64px; }
+  .chart-label{ color:var(--ink-soft); font-size:.96rem; text-align:right; }
 
-  /* ============================================
-     SERVICES — alternating rows, wave dividers
-     ============================================ */
-  .services{padding:110px 0 20px;}
-  .services-head{max-width:600px;margin-bottom:80px;}
-  .services-head .tag{color:var(--rose-500);font-weight:600;font-size:.92rem;display:block;margin-bottom:16px;}
-  .services-head h2{font-size:clamp(1.9rem,3.2vw,2.6rem);}
+  .compassion-panel{
+    background:var(--plum); border-radius:2px; padding:52px 48px; color:var(--paper);
+    position:relative; overflow:hidden;
+  }
+  .compassion-panel::before{
+    content:'"'; position:absolute; top:-30px; left:28px;
+    font-family:var(--serif); font-style:italic; font-weight:500;
+    font-size:9rem; color:rgba(250,243,236,.06); line-height:1;
+  }
+  .compassion-panel .eyebrow{ color:var(--rose-soft); }
+  .compassion-panel .eyebrow::before{ background:var(--rose-soft); }
+  .compassion-panel p.lead{
+    font-family:var(--serif); font-style:italic; font-weight:500;
+    font-size:1.5rem; line-height:1.45; color:var(--paper); margin-bottom:26px; position:relative;
+  }
+  .compassion-panel p.support{ color:rgba(250,243,236,.68); font-size:.98rem; max-width:420px; }
+
+  /* SERVICES */
+  .services{ padding:20px 0 30px; }
+  .services-head{ max-width:620px; margin-bottom:90px; }
+  .services-head h2{ font-size:clamp(2rem,3.2vw,2.7rem); }
 
   .service-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:center;
-    gap:70px;
-    padding:70px 0;
-    opacity:0;
-    transform:translateY(36px);
-    transition:opacity .8s var(--ease), transform .8s var(--ease);
+    display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:80px; padding:80px 0;
+    opacity:0; transform:translateY(40px);
+    transition:opacity .9s var(--ease), transform .9s var(--ease);
   }
-  .service-row.in-view{opacity:1;transform:translateY(0);}
-  .service-row:nth-child(even){direction:rtl;}
-  .service-row:nth-child(even) > *{direction:ltr;}
+  .service-row.in-view{ opacity:1; transform:translateY(0); }
+  .service-row[data-side="right"]{ direction:rtl; }
+  .service-row[data-side="right"] > *{ direction:ltr; }
 
-  .service-media{
-    position:relative;
-    border-radius:24px;
-    overflow:hidden;
-    aspect-ratio:4/3.1;
-    box-shadow:0 30px 60px -20px rgba(46,16,48,.25);
-  }
-  .service-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);}
-  .service-row:hover .service-media img{transform:scale(1.05);}
-  .service-media .icon-badge{
-    position:absolute;
-    bottom:20px; left:20px;
-    width:56px;height:56px;
-    border-radius:16px;
-    background:rgba(255,255,255,.92);
-    backdrop-filter:blur(6px);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--plum-800);
-  }
+  .service-media{ position:relative; }
+  .service-media .frame{ position:relative; aspect-ratio:4/3.2; overflow:hidden; }
+  .service-media .frame img{ width:100%; height:100%; object-fit:cover; transition:transform 1s var(--ease); }
+  .service-row:hover .frame img{ transform:scale(1.035); }
+  .service-media .frame-edge{ position:absolute; inset:16px 0 0 16px; border:1px solid var(--brass-soft); pointer-events:none; }
+  .service-row[data-side="right"] .frame-edge{ inset:16px 16px 0 0; }
 
-  .service-copy .num-mark{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:.85rem;
-    color:var(--rose-500);
-    margin-bottom:14px;
-    display:block;
+  .service-tag{
+    position:absolute; top:-14px; left:24px; background:var(--paper); padding:8px 16px;
+    border:1px solid var(--line); font-size:.8rem; color:var(--ink-soft);
+    display:flex; align-items:center; gap:8px; z-index:2;
   }
-  .service-copy h3{font-size:1.6rem;margin-bottom:16px;}
-  .service-copy p{color:var(--ink-600);font-size:1rem;margin-bottom:22px;max-width:440px;}
+  .service-tag .icon{ width:15px; height:15px; color:var(--brass); }
+
+  .service-copy .index{ font-family:var(--serif); font-style:italic; color:var(--rose); font-size:1rem; display:block; margin-bottom:14px; }
+  .service-copy h3{ font-size:1.7rem; margin-bottom:16px; }
+  .service-copy p{ color:var(--ink-soft); font-size:1rem; margin-bottom:24px; max-width:440px; }
   .service-link{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-weight:600;
-    color:var(--plum-800);
-    font-size:.95rem;
-    border-bottom:1.5px solid var(--rose-500);
-    padding-bottom:3px;
+    display:inline-flex; align-items:center; gap:8px; font-weight:500; color:var(--plum-deep);
+    font-size:.94rem; padding-bottom:4px; border-bottom:1px solid var(--brass);
     transition:color .3s var(--ease), gap .3s var(--ease);
   }
-  .service-link:hover{color:var(--rose-500);gap:12px;}
+  .service-link:hover{ color:var(--brass); gap:12px; }
 
-  .wave-divider{width:100%;height:64px;display:block;color:var(--rose-300);opacity:.5;}
-
-  /* ============================================
-     WHY CHOOSE US
-     ============================================ */
-  .why{
-    background:var(--plum-800);
-    background-image:radial-gradient(circle at 82% 18%, rgba(228,143,179,.18), transparent 55%);
-    color:var(--white);
-    padding:110px 0;
-    margin-top:60px;
-    border-radius:32px;
+  .wave-seam{ width:100%; height:60px; display:block; overflow:visible; }
+  .wave-seam path{
+    fill:none; stroke:var(--brass-soft); stroke-width:1;
+    stroke-dasharray:1400; stroke-dashoffset:1400;
+    transition:stroke-dashoffset 1.4s var(--ease);
   }
-  .why-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start;}
-  .why-head .tag{color:var(--rose-300);font-weight:600;font-size:.92rem;display:block;margin-bottom:16px;}
-  .why-head h2{color:var(--white);font-size:clamp(1.9rem,3vw,2.5rem);margin-bottom:20px;}
-  .why-head p{color:rgba(255,255,255,.72);max-width:420px;}
+  .wave-seam.in-view path{ stroke-dashoffset:0; }
 
-  .why-list{display:flex;flex-direction:column;gap:26px;}
-  .why-item{
-    display:flex;
-    gap:18px;
-    padding-bottom:26px;
-    border-bottom:1px solid rgba(255,255,255,.14);
-  }
-  .why-item:last-child{border-bottom:none;padding-bottom:0;}
-  .why-item .icon{color:var(--rose-300);margin-top:3px;}
-  .why-item h4{color:var(--white);font-size:1.08rem;margin-bottom:6px;}
-  .why-item p{color:rgba(255,255,255,.68);font-size:.94rem;}
+  /* WHY CHOOSE US */
+  .why{ background:var(--plum-deep); color:var(--paper); padding:110px 0; margin-top:40px; }
+  .why-grid{ display:grid; grid-template-columns:.85fr 1.15fr; gap:80px; align-items:start; }
+  .why-head .eyebrow{ color:var(--brass-soft); }
+  .why-head .eyebrow::before{ background:var(--brass-soft); }
+  .why-head h2{ color:var(--paper); font-size:clamp(1.9rem,3vw,2.5rem); margin-bottom:22px; }
+  .why-head p{ color:rgba(250,243,236,.65); max-width:400px; }
 
-  /* ============================================
-     TESTIMONIALS — carousel
-     ============================================ */
-  .testimonials{padding:110px 0;}
-  .testi-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:56px;
-    flex-wrap:wrap;
-    gap:24px;
-  }
-  .testi-head .tag{color:var(--rose-500);font-weight:600;font-size:.92rem;display:block;margin-bottom:16px;}
-  .testi-head h2{font-size:clamp(1.8rem,3vw,2.3rem);max-width:480px;}
-  .testi-controls{display:flex;gap:12px;}
+  .why-list{ display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .why-item{ display:flex; gap:16px; padding:26px 24px 26px 0; border-top:1px solid rgba(250,243,236,.14); }
+  .why-item .icon{ color:var(--brass-soft); margin-top:3px; }
+  .why-item h4{ color:var(--paper); font-size:1.05rem; margin-bottom:8px; font-weight:500; }
+  .why-item p{ color:rgba(250,243,236,.6); font-size:.92rem; }
+
+  /* TESTIMONIALS */
+  .testimonials{ padding:110px 0; }
+  .testi-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:60px; flex-wrap:wrap; gap:24px; }
+  .testi-head h2{ font-size:clamp(1.9rem,3vw,2.4rem); max-width:480px; }
+  .testi-controls{ display:flex; gap:10px; }
   .testi-controls button{
-    width:46px;height:46px;
-    border-radius:50%;
-    border:1.5px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--plum-800);
-    transition:background .3s var(--ease), border-color .3s var(--ease), transform .2s var(--ease);
-  }
-  .testi-controls button:hover{background:var(--plum-800);border-color:var(--plum-800);color:var(--white);}
-  .testi-controls button:active{transform:scale(.94);}
-
-  .testi-track-wrap{overflow:hidden;}
-  .testi-track{display:flex;transition:transform .6s var(--ease);}
-  .testi-card{
-    flex:0 0 100%;
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:28px;
-    padding:44px;
-    background:var(--white);
-    border-radius:24px;
-    border:1px solid var(--line);
-  }
-  .testi-avatar{
-    width:58px;height:58px;
-    border-radius:50%;
-    background:var(--rose-300);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--plum-900);
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:1.2rem;
-  }
-  .testi-quote{color:var(--ink-600);font-size:1.08rem;margin-bottom:18px;line-height:1.7;}
-  .testi-name{font-family:var(--font-display);font-weight:700;color:var(--plum-900);font-size:.98rem;}
-  .testi-role{color:var(--ink-400);font-size:.86rem;margin-top:2px;}
-
-  @media(min-width:820px){
-    .testi-track{gap:24px;}
-    .testi-card{flex:0 0 calc(50% - 12px);}
-  }
-
-  /* ============================================
-     LOCATION / MAP
-     ============================================ */
-  .location{
-    padding:0 0 110px;
-  }
-  .location-grid{
-    display:grid;
-    grid-template-columns:.85fr 1.15fr;
-    border-radius:28px;
-    overflow:hidden;
-    box-shadow:0 30px 70px -30px rgba(46,16,48,.3);
-  }
-  .location-info{
-    background:var(--plum-900);
-    color:var(--white);
-    padding:56px 48px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:26px;
-  }
-  .location-info .tag{color:var(--rose-300);font-weight:600;font-size:.92rem;}
-  .location-info h2{color:var(--white);font-size:1.9rem;}
-  .location-info p{color:rgba(255,255,255,.7);font-size:.98rem;}
-  .location-item{display:flex;gap:14px;align-items:flex-start;}
-  .location-item .icon{color:var(--rose-300);margin-top:2px;}
-  .location-item span{color:rgba(255,255,255,.85);font-size:.95rem;}
-
-  #map{width:100%;height:100%;min-height:420px;filter:saturate(.35) contrast(1.05);}
-
-  /* ============================================
-     FINAL CTA
-     ============================================ */
-  .cta-band{
-    margin:0 0 110px;
-    background:linear-gradient(120deg, var(--plum-800), var(--plum-900));
-    border-radius:32px;
-    padding:80px 56px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .cta-band::before{
-    content:'';
-    position:absolute;
-    width:420px;height:420px;
-    background:radial-gradient(circle, rgba(228,143,179,.28), transparent 65%);
-    top:-160px; right:-120px;
-  }
-  .cta-band h2{color:var(--white);font-size:clamp(1.8rem,3.4vw,2.6rem);max-width:640px;margin:0 auto 18px;position:relative;}
-  .cta-band p{color:rgba(255,255,255,.72);max-width:480px;margin:0 auto 34px;position:relative;}
-  .cta-band .hero-actions{justify-content:center;position:relative;}
-
-  /* ============================================
-     FOOTER
-     ============================================ */
-  footer{background:var(--plum-900);color:rgba(255,255,255,.65);padding:70px 0 30px;}
-  .footer-grid{
-    display:grid;
-    grid-template-columns:1.4fr 1fr 1fr 1fr;
-    gap:48px;
-    padding-bottom:50px;
-    border-bottom:1px solid rgba(255,255,255,.12);
-  }
-  .footer-logo{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
-  .footer-logo img{height:36px;filter:brightness(0) invert(1);opacity:.95;}
-  .footer-logo span{font-family:var(--font-display);font-weight:700;color:var(--white);}
-  .footer-col h5{color:var(--white);font-family:var(--font-display);font-size:.92rem;margin-bottom:18px;}
-  .footer-col ul{display:flex;flex-direction:column;gap:12px;}
-  .footer-col a{font-size:.92rem;transition:color .3s var(--ease);}
-  .footer-col a:hover{color:var(--rose-300);}
-  .footer-social{display:flex;gap:12px;margin-top:20px;}
-  .footer-social a{
-    width:38px;height:38px;border-radius:50%;
-    border:1px solid rgba(255,255,255,.2);
-    display:flex;align-items:center;justify-content:center;
+    width:44px; height:44px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--plum-deep);
     transition:background .3s var(--ease), border-color .3s var(--ease);
   }
-  .footer-social a:hover{background:var(--rose-500);border-color:var(--rose-500);}
-  .footer-bottom{
-    display:flex;justify-content:space-between;align-items:center;
-    padding-top:26px;font-size:.85rem;flex-wrap:wrap;gap:12px;
-  }
+  .testi-controls button:hover{ background:var(--plum-deep); border-color:var(--plum-deep); color:var(--paper); }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
-  @media(max-width:900px){
+  .testi-track-wrap{ overflow:hidden; }
+  .testi-track{ display:flex; transition:transform .65s var(--ease); }
+  .testi-card{ flex:0 0 100%; padding:48px 44px; background:var(--paper); border-top:2px solid var(--brass); position:relative; }
+  .testi-quote{
+    font-family:var(--serif); font-style:italic; font-weight:500;
+    color:var(--plum-deep); font-size:1.3rem; line-height:1.55; margin-bottom:28px; max-width:640px;
+  }
+  .testi-meta{ display:flex; align-items:center; gap:14px; }
+  .testi-meta .rule{ width:30px; height:1px; background:var(--brass); }
+  .testi-name{ font-weight:600; font-size:.92rem; color:var(--plum-deep); }
+  .testi-role{ color:var(--ink-faint); font-size:.86rem; }
+
+  @media(min-width:820px){ .testi-track{ gap:24px; } .testi-card{ flex:0 0 calc(50% - 12px); } }
+
+  /* LOCATION */
+  .location{ padding:0 0 110px; }
+  .location-grid{ display:grid; grid-template-columns:.85fr 1.15fr; }
+  .location-info{ background:var(--plum); color:var(--paper); padding:60px 50px; display:flex; flex-direction:column; justify-content:center; gap:28px; }
+  .location-info .eyebrow{ color:var(--rose-soft); }
+  .location-info .eyebrow::before{ background:var(--rose-soft); }
+  .location-info h2{ color:var(--paper); font-size:2rem; }
+  .location-info > p{ color:rgba(250,243,236,.65); font-size:.98rem; }
+  .location-item{ display:flex; gap:14px; align-items:flex-start; }
+  .location-item .icon{ color:var(--brass-soft); margin-top:2px; }
+  .location-item span{ color:rgba(250,243,236,.85); font-size:.95rem; }
+
+  #map{ width:100%; height:100%; min-height:440px; filter:sepia(.08) saturate(.5) contrast(1.02); }
+
+  /* FINAL CTA */
+  .cta-band{ margin:0; background:var(--plum-deep); padding:100px 40px; text-align:center; position:relative; }
+  .cta-band .eyebrow{ justify-content:center; color:var(--brass-soft); }
+  .cta-band .eyebrow::before{ display:none; }
+  .cta-band h2{ color:var(--paper); font-size:clamp(2rem,3.6vw,2.9rem); max-width:640px; margin:0 auto 20px; }
+  .cta-band p{ color:rgba(250,243,236,.65); max-width:460px; margin:0 auto 38px; }
+  .cta-band .hero-actions{ justify-content:center; }
+
+  /* FOOTER */
+  footer{ background:var(--plum-deep); color:rgba(250,243,236,.6); padding:70px 0 30px; border-top:1px solid rgba(250,243,236,.1); }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; padding-bottom:50px; border-bottom:1px solid rgba(250,243,236,.12); }
+  .footer-logo{ display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .footer-logo img{ height:34px; filter:brightness(0) invert(1); opacity:.9; }
+  .footer-logo span{ font-family:var(--serif); font-weight:500; color:var(--paper); font-size:1.05rem; }
+  .footer-col h5{ color:var(--paper); font-family:var(--sans); font-weight:600; font-size:.86rem; margin-bottom:18px; }
+  .footer-col ul{ display:flex; flex-direction:column; gap:12px; }
+  .footer-col a{ font-size:.9rem; transition:color .3s var(--ease); }
+  .footer-col a:hover{ color:var(--brass-soft); }
+  .footer-social{ display:flex; gap:12px; margin-top:22px; }
+  .footer-social a{
+    width:36px; height:36px; border:1px solid rgba(250,243,236,.2);
+    display:flex; align-items:center; justify-content:center;
+    transition:background .3s var(--ease), border-color .3s var(--ease);
+  }
+  .footer-social a:hover{ background:var(--brass); border-color:var(--brass); }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:26px; font-size:.84rem; flex-wrap:wrap; gap:12px; }
+
+  /* RESPONSIVE */
+  @media(max-width:960px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-frame{ display:none; }
+    .hero-copy{ padding-left:0; }
+    .duality-grid{ grid-template-columns:1fr; gap:50px; }
+    .why-grid{ grid-template-columns:1fr; }
+    .why-list{ grid-template-columns:1fr; }
+    .service-row{ grid-template-columns:1fr; gap:36px; }
+    .service-row[data-side="right"]{ direction:ltr; }
+    .location-grid{ grid-template-columns:1fr; }
+    #map{ min-height:320px; }
+
     .nav-links{
-      position:fixed;
-      top:0; right:0;
-      height:100vh;
-      width:min(78vw,320px);
-      background:var(--white);
-      flex-direction:column;
-      align-items:flex-start;
-      justify-content:center;
-      gap:28px;
-      padding:0 40px;
-      transform:translateX(100%);
-      transition:transform .4s var(--ease);
+      position:fixed; top:0; right:0; height:100vh; width:min(80vw,320px);
+      background:var(--paper); flex-direction:column; align-items:flex-start; justify-content:center;
+      gap:30px; padding:0 42px; transform:translateX(100%); transition:transform .4s var(--ease);
       box-shadow:-20px 0 50px rgba(0,0,0,.15);
     }
-    .nav-links.open{transform:translateX(0);}
-    .nav-links a{color:var(--plum-900) !important;font-size:1.1rem;}
-    .nav-toggle{display:block;}
-    .nav-cta{order:99;}
-
-    .stats{grid-template-columns:repeat(2,1fr);}
-    .why-grid{grid-template-columns:1fr;}
-    .service-row{grid-template-columns:1fr;gap:32px;}
-    .service-row:nth-child(even){direction:ltr;}
-    .location-grid{grid-template-columns:1fr;}
-    #map{min-height:320px;}
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a{ color:var(--plum-deep) !important; font-size:1.1rem; }
+    .nav-toggle{ display:block; }
+    .nav-cta{ order:99; border-color:var(--plum-deep) !important; color:var(--plum-deep) !important; }
   }
 
   @media(max-width:600px){
-    .container{padding:0 20px;}
-    .hero-content{padding-left:0;}
-    .hero h1{font-size:2.1rem;}
-    .cta-band{padding:56px 28px;}
-    .footer-grid{grid-template-columns:1fr 1fr;}
+    .container{ padding:0 22px; }
+    .hero h1{ font-size:2.2rem; }
+    .compassion-panel{ padding:38px 28px; }
+    .cta-band{ padding:70px 24px; }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- ============================================
-     NAVBAR
-     ============================================ -->
 <nav class="navbar" id="navbar">
   <div class="container">
     <a href="#top" class="nav-logo">
       <img src="https://res.cloudinary.com/dpymwa41m/image/upload/v1789786580/saumed-website-logo-_a8spyx.png" alt="Saumed Gyna Care logo">
+      <span>Saumed</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
+      <li><a href="#services">Care</a></li>
       <li><a href="#testimonials">Stories</a></li>
-      <li><a href="#location">Visit us</a></li>
+      <li><a href="#location">Visit</a></li>
       <li><a href="#contact" class="nav-cta">Book a consultation</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -622,250 +406,226 @@
   </div>
 </nav>
 
-<!-- ============================================
-     HERO
-     ============================================ -->
 <div class="hero-wrap" id="top">
   <section class="hero">
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-eyebrow"><span class="dot"></span> Thika Town, Kiambu County</div>
-        <h1>Women's health, led by women who understand it.</h1>
-        <p>Gynaecology, obstetrics, fertility and family planning care from a specialist team who take the time to listen — in a private, unhurried setting.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Book a consultation</a>
-          <a href="#services" class="btn btn-ghost">Explore our care</a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Thika Town, Kiambu County</div>
+          <h1>Precision care for every stage of a woman's life</h1>
+          <p>Gynaecology, obstetrics and fertility care from a specialist team — unhurried, private, and exact.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Book a consultation</a>
+            <a href="#services" class="btn btn-text">Explore our care</a>
+          </div>
+        </div>
+        <div class="hero-frame">
+          <div class="frame-outline"></div>
+          <div class="frame-photo">
+            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=1200&auto=format&fit=crop" alt="Consultation room at Saumed Gyna Care">
+          </div>
+          <div class="hero-tick">
+            <svg viewBox="0 0 80 16"><line x1="0" y1="8" x2="80" y2="8" stroke="currentColor" stroke-width="1"/><line x1="0" y1="3" x2="0" y2="13" stroke="currentColor" stroke-width="1"/><line x1="40" y1="5" x2="40" y2="11" stroke="currentColor" stroke-width="1"/><line x1="80" y1="3" y2="13" x2="80" stroke="currentColor" stroke-width="1"/></svg>
+            Est. 2014
+          </div>
         </div>
       </div>
     </div>
-    <div class="hero-scroll-cue"><span>SCROLL</span><span class="line"></span></div>
+    <div class="hero-scroll-cue"><span class="line"></span><span>Scroll</span></div>
   </section>
 </div>
 
-<!-- ============================================
-     REVEAL PANEL — everything else slides up over the hero
-     ============================================ -->
 <div class="reveal-panel">
+  <div class="reveal-lip"></div>
 
-  <!-- INTRO -->
-  <section class="intro">
+  <section class="duality" id="about">
     <div class="container">
-      <span class="tag">Welcome to Saumed</span>
-      <h2>A one-stop women's health centre built around precision and quiet care.</h2>
-      <p>From your first consultation to laboratory results, ultrasound and pharmacy — every part of your visit happens under one roof, guided by a team that treats your time and comfort as seriously as your health.</p>
-
-      <div class="stats">
-        <div class="stat"><div class="num"><span class="count" data-target="12">0</span>+</div><div class="label">Years in practice</div></div>
-        <div class="stat"><div class="num"><span class="count" data-target="8">0</span></div><div class="label">Specialist services</div></div>
-        <div class="stat"><div class="num"><span class="count" data-target="4">0</span></div><div class="label">Diagnostic labs on-site</div></div>
-        <div class="stat"><div class="num"><span class="count" data-target="6">0</span></div><div class="label">Days a week, by appointment</div></div>
+      <div class="duality-grid">
+        <div>
+          <div class="duality-head">
+            <div class="eyebrow">Precision</div>
+            <h2>Measured, exact, and considered at every step of your care.</h2>
+            <p>The same discipline that guides a diagnosis guides how we run the clinic — from your first call to your last follow-up.</p>
+          </div>
+          <div class="chart-list">
+            <div class="chart-row"><span class="chart-num"><span class="count" data-target="12">0</span></span><span class="chart-label">Years of specialist gynaecological practice</span></div>
+            <div class="chart-row"><span class="chart-num"><span class="count" data-target="8">0</span></span><span class="chart-label">Areas of specialist care, under one roof</span></div>
+            <div class="chart-row"><span class="chart-num"><span class="count" data-target="4">0</span></span><span class="chart-label">Diagnostic services performed on site</span></div>
+            <div class="chart-row"><span class="chart-num"><span class="count" data-target="6">0</span></span><span class="chart-label">Days open each week, by appointment</span></div>
+          </div>
+        </div>
+        <div class="compassion-panel">
+          <div class="eyebrow">Compassion</div>
+          <p class="lead">Every visit here starts with listening, not with a chart.</p>
+          <p class="support">Our team takes the time a consultation actually needs — private, unrushed, and built around what you're going through, not just what the notes say.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section class="services" id="services">
     <div class="container">
       <div class="services-head">
-        <span class="tag">What we treat</span>
-        <h2>Specialist care, explained simply — not buried in a list.</h2>
+        <div class="eyebrow">How we care for you</div>
+        <h2>Specialist services, explained the way a doctor would explain them to you.</h2>
       </div>
 
-      <div class="service-row">
+      <div class="service-row" data-side="left">
         <div class="service-media">
-          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1200&auto=format&fit=crop" alt="Consultation room">
-          <div class="icon-badge">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg>
-          </div>
+          <div class="service-tag"><svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg>Gynaecology</div>
+          <div class="frame"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1000&auto=format&fit=crop" alt="Gynaecology consultation"></div>
+          <div class="frame-edge"></div>
         </div>
         <div class="service-copy">
-          <span class="num-mark">Gynaecology</span>
-          <h3>Diagnosis and treatment, including minimally invasive surgery</h3>
-          <p>Consultations for gynaecological conditions with access to laparoscopic and hysteroscopic procedures — chosen for faster recovery and minimal scarring wherever possible.</p>
-          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="index">01 — Diagnosis &amp; treatment</span>
+          <h3>Minimally invasive surgery, chosen with care</h3>
+          <p>Consultation and treatment for gynaecological conditions, with access to laparoscopic and hysteroscopic procedures selected for faster recovery and minimal scarring.</p>
+          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:15px;height:15px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
 
-      <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,30 C300,60 900,0 1200,30 L1200,60 L0,60 Z" fill="currentColor"/></svg>
+      <svg class="wave-seam" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,32 C280,58 900,4 1200,30"/></svg>
 
-      <div class="service-row">
+      <div class="service-row" data-side="right">
         <div class="service-media">
-          <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1200&auto=format&fit=crop" alt="Pregnancy care">
-          <div class="icon-badge">
-            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><path d="M9 20c0-3.5 1.8-6 3-6s3 2.5 3 6"/></svg>
-          </div>
+          <div class="service-tag"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><path d="M9 20c0-3.5 1.8-6 3-6s3 2.5 3 6"/></svg>Obstetrics</div>
+          <div class="frame"><img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1000&auto=format&fit=crop" alt="Antenatal pregnancy care"></div>
+          <div class="frame-edge"></div>
         </div>
         <div class="service-copy">
-          <span class="num-mark">Obstetrics</span>
+          <span class="index">02 — Pregnancy care</span>
           <h3>Antenatal care that stays with you through every stage</h3>
           <p>Regular monitoring, dating scans and steady guidance from early pregnancy through to delivery planning, with a consultant you'll come to know by name.</p>
-          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:15px;height:15px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
 
-      <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,30 C300,0 900,60 1200,30 L1200,60 L0,60 Z" fill="currentColor"/></svg>
+      <svg class="wave-seam" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,28 C300,2 920,56 1200,30"/></svg>
 
-      <div class="service-row">
+      <div class="service-row" data-side="left">
         <div class="service-media">
-          <img src="https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?q=80&w=1200&auto=format&fit=crop" alt="Fertility and IVF">
-          <div class="icon-badge">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/><circle cx="12" cy="12" r="9"/></svg>
-          </div>
+          <div class="service-tag"><svg class="icon" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/><circle cx="12" cy="12" r="9"/></svg>Fertility &amp; IVF</div>
+          <div class="frame"><img src="https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?q=80&w=1000&auto=format&fit=crop" alt="Fertility and IVF support"></div>
+          <div class="frame-edge"></div>
         </div>
         <div class="service-copy">
-          <span class="num-mark">Fertility &amp; IVF</span>
-          <h3>Support for couples building their family, at every step</h3>
-          <p>Fertility assessment and treatment — including IVF — for individuals and couples navigating unexplained infertility or prior unsuccessful treatment.</p>
-          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="index">03 — Building your family</span>
+          <h3>Fertility support for individuals and couples</h3>
+          <p>Assessment and treatment — including IVF — for those navigating unexplained infertility, blocked fallopian tubes, or a prior unsuccessful treatment.</p>
+          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:15px;height:15px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
 
-      <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,30 C300,60 900,0 1200,30 L1200,60 L0,60 Z" fill="currentColor"/></svg>
+      <svg class="wave-seam" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,34 C260,4 940,58 1200,26"/></svg>
 
-      <div class="service-row">
+      <div class="service-row" data-side="right">
         <div class="service-media">
-          <img src="https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=1200&auto=format&fit=crop" alt="Ultrasound imaging">
-          <div class="icon-badge">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
-          </div>
+          <div class="service-tag"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="1"/><path d="M8 21h8M12 18v3"/></svg>Ultrasound &amp; laboratory</div>
+          <div class="frame"><img src="https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=1000&auto=format&fit=crop" alt="Ultrasound and diagnostic imaging"></div>
+          <div class="frame-edge"></div>
         </div>
         <div class="service-copy">
-          <span class="num-mark">Ultrasound &amp; laboratory</span>
-          <h3>3D/4D imaging and full diagnostics, done on the same visit</h3>
-          <p>On-site ultrasound and an in-house laboratory dedicated to gynae-related testing — so results come back fast, without a referral to a separate facility.</p>
-          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="index">04 — Diagnostics</span>
+          <h3>3D/4D imaging and full lab work, in one visit</h3>
+          <p>On-site ultrasound and an in-house laboratory dedicated to gynae-related testing, so results come back fast without a referral elsewhere.</p>
+          <a href="#contact" class="service-link">Book a consultation <svg class="icon" style="width:15px;height:15px" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY CHOOSE US -->
-  <section class="why-wrap" style="padding:0 20px;">
-    <div class="why" id="about">
-      <div class="container">
-        <div class="why-grid">
-          <div class="why-head">
-            <span class="tag">Why patients choose us</span>
-            <h2>Care designed around you, not around the clinic's convenience.</h2>
-            <p>We built Saumed around one idea: that expert care and a calm, respectful experience shouldn't be a trade-off.</p>
+  <section class="why">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-head">
+          <div class="eyebrow">Why patients choose us</div>
+          <h2>Care designed around you, not the clinic's convenience.</h2>
+          <p>We built Saumed on one idea: expert care and a calm, respectful experience shouldn't be a trade-off.</p>
+        </div>
+        <div class="why-list">
+          <div class="why-item">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z"/></svg>
+            <div><h4>Private, unhurried visits</h4><p>A booking system built for one-on-one attention, not a queue.</p></div>
           </div>
-          <div class="why-list">
-            <div class="why-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z"/></svg>
-              <div><h4>Private, unhurried consultations</h4><p>A booking system built for one-on-one attention, not a waiting room queue.</p></div>
-            </div>
-            <div class="why-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>
-              <div><h4>Minimally invasive by default</h4><p>Laparoscopic and hysteroscopic techniques used wherever clinically appropriate.</p></div>
-            </div>
-            <div class="why-item">
-              <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-              <div><h4>All major insurances accepted</h4><p>Straightforward billing so care decisions come first, not paperwork.</p></div>
-            </div>
-            <div class="why-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg>
-              <div><h4>Flexible clinic hours</h4><p>Open six days a week, including Saturday appointments, in Thika Town.</p></div>
-            </div>
+          <div class="why-item">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>
+            <div><h4>Minimally invasive by default</h4><p>Laparoscopic and hysteroscopic technique used wherever appropriate.</p></div>
+          </div>
+          <div class="why-item">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="1"/><path d="M3 10h18"/></svg>
+            <div><h4>All major insurances accepted</h4><p>Straightforward billing, so care comes first, not paperwork.</p></div>
+          </div>
+          <div class="why-item">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg>
+            <div><h4>Flexible clinic hours</h4><p>Open six days a week, including Saturdays, in Thika Town.</p></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
   <section class="testimonials" id="testimonials">
     <div class="container">
       <div class="testi-head">
         <div>
-          <span class="tag">Patient stories</span>
+          <div class="eyebrow">Patient notes</div>
           <h2>What it's actually like to be a patient here</h2>
         </div>
         <div class="testi-controls">
-          <button id="testiPrev" aria-label="Previous testimonial"><svg class="icon" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button id="testiNext" aria-label="Next testimonial"><svg class="icon" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          <button id="testiPrev" aria-label="Previous"><svg class="icon" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button id="testiNext" aria-label="Next"><svg class="icon" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
         </div>
       </div>
 
       <div class="testi-track-wrap">
         <div class="testi-track" id="testiTrack">
           <div class="testi-card">
-            <div class="testi-avatar">M</div>
-            <div>
-              <p class="testi-quote">The booking system meant almost no waiting, and the consultant took real time to explain everything before we moved ahead with anything.</p>
-              <div class="testi-name">Moureen N.</div>
-              <div class="testi-role">Gynaecology patient</div>
-            </div>
+            <p class="testi-quote">The booking system meant almost no waiting, and the consultant took real time to explain everything before we moved ahead with anything.</p>
+            <div class="testi-meta"><span class="rule"></span><div><div class="testi-name">Moureen N.</div><div class="testi-role">Gynaecology patient</div></div></div>
           </div>
           <div class="testi-card">
-            <div class="testi-avatar">V</div>
-            <div>
-              <p class="testi-quote">Everything felt considered, from how the receptionist greeted me to how carefully the procedure itself was explained beforehand.</p>
-              <div class="testi-name">Vikki M.</div>
-              <div class="testi-role">Laparoscopy patient</div>
-            </div>
+            <p class="testi-quote">Everything felt considered, from how the receptionist greeted me to how carefully the procedure was explained beforehand.</p>
+            <div class="testi-meta"><span class="rule"></span><div><div class="testi-name">Vikki M.</div><div class="testi-role">Laparoscopy patient</div></div></div>
           </div>
           <div class="testi-card">
-            <div class="testi-avatar">S</div>
-            <div>
-              <p class="testi-quote">I've referred three friends here since my first visit. It's rare to find a clinic this organised and this warm at the same time.</p>
-              <div class="testi-name">Sylviah K.</div>
-              <div class="testi-role">Ongoing patient</div>
-            </div>
+            <p class="testi-quote">I've referred three friends here since my first visit. It's rare to find a clinic this organised and this warm at once.</p>
+            <div class="testi-meta"><span class="rule"></span><div><div class="testi-name">Sylviah K.</div><div class="testi-role">Ongoing patient</div></div></div>
           </div>
           <div class="testi-card">
-            <div class="testi-avatar">A</div>
-            <div>
-              <p class="testi-quote">Having the lab and pharmacy in the same building meant one visit covered everything I needed. That alone saved me a full day.</p>
-              <div class="testi-name">Ann A.</div>
-              <div class="testi-role">Family planning patient</div>
-            </div>
+            <p class="testi-quote">Having the lab and pharmacy in the same building meant one visit covered everything. That alone saved me a full day.</p>
+            <div class="testi-meta"><span class="rule"></span><div><div class="testi-name">Ann A.</div><div class="testi-role">Family planning patient</div></div></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- LOCATION -->
   <section class="location" id="location">
     <div class="container">
       <div class="location-grid">
         <div class="location-info">
-          <span class="tag">Find us</span>
+          <div class="eyebrow">Find us</div>
           <h2>Visit the clinic</h2>
           <p>Third floor, Thika Bazaar (Pizza Inn Building), right on Kenyatta Highway — easy to reach from anywhere in Thika Town.</p>
-          <div class="location-item">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg>
-            <span>Thika Bazaar, 3rd Floor (Pizza Inn Building), Kenyatta Highway, Thika Town</span>
-          </div>
-          <div class="location-item">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M5 5c0 8 6 14 14 14l3-4-6-2-2 2c-2-1-4-3-5-5l2-2-2-6-4 3z"/></svg>
-            <span>0796 633 428</span>
-          </div>
-          <div class="location-item">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-            <span>info@saumed.co.ke</span>
-          </div>
+          <div class="location-item"><svg class="icon" viewBox="0 0 24 24"><path d="M12 21c-4.97-3.4-9-7.1-9-11.2C3 6.6 5.4 4 8.5 4c1.7 0 3.1.9 3.9 2.2C13.2 4.9 14.6 4 16.3 4 19.4 4 21.8 6.6 21.8 9.8c0 4.1-4.03 7.8-9 11.2z"/></svg><span>Thika Bazaar, 3rd Floor, Kenyatta Highway, Thika Town</span></div>
+          <div class="location-item"><svg class="icon" viewBox="0 0 24 24"><path d="M5 5c0 8 6 14 14 14l3-4-6-2-2 2c-2-1-4-3-5-5l2-2-2-6-4 3z"/></svg><span>0796 633 428</span></div>
+          <div class="location-item"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg><span>info@saumed.co.ke</span></div>
         </div>
         <div id="map"></div>
       </div>
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section style="padding:0 20px;">
-    <div class="container" style="padding:0;">
-      <div class="cta-band" id="contact">
-        <h2>Ready when you are — book your consultation today.</h2>
-        <p>Reach out by phone, WhatsApp or email. Our team will help you find the right specialist and the next available slot.</p>
-        <div class="hero-actions">
-          <a href="tel:0796633428" class="btn btn-primary">Call 0796 633 428</a>
-          <a href="https://wa.me/254796633428" class="btn btn-ghost">Message on WhatsApp</a>
-        </div>
-      </div>
+  <section class="cta-band" id="contact">
+    <div class="eyebrow">Book your visit</div>
+    <h2>Ready when you are.</h2>
+    <p>Reach out by phone, WhatsApp or email — our team will help you find the right specialist and the next available slot.</p>
+    <div class="hero-actions">
+      <a href="tel:0796633428" class="btn btn-primary">Call 0796 633 428</a>
+      <a href="https://wa.me/254796633428" class="btn btn-text" style="color:var(--paper)">Message on WhatsApp</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -876,17 +636,17 @@
           </div>
           <p style="max-width:280px;font-size:.9rem;">Specialised women's health care in Thika Town — precision care, compassionate hands.</p>
           <div class="footer-social">
-            <a href="https://web.facebook.com/SauMedGynaCare" aria-label="Facebook"><svg class="icon" style="width:17px;height:17px" viewBox="0 0 24 24"><path d="M14 9V6.5c0-1 .6-1.5 1.6-1.5H17V2h-2.5C12 2 11 3.5 11 6v3H8v3h3v9h3v-9h2.6L17 9h-3z"/></svg></a>
-            <a href="https://www.instagram.com/saumed_gyna_care/" aria-label="Instagram"><svg class="icon" style="width:17px;height:17px" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+            <a href="https://web.facebook.com/SauMedGynaCare" aria-label="Facebook"><svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M14 9V6.5c0-1 .6-1.5 1.6-1.5H17V2h-2.5C12 2 11 3.5 11 6v3H8v3h3v9h3v-9h2.6L17 9h-3z"/></svg></a>
+            <a href="https://www.instagram.com/saumed_gyna_care/" aria-label="Instagram"><svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
           </div>
         </div>
         <div class="footer-col">
-          <h5>Services</h5>
+          <h5>Care</h5>
           <ul>
             <li><a href="#services">Gynaecology</a></li>
             <li><a href="#services">Obstetrics</a></li>
             <li><a href="#services">Fertility &amp; IVF</a></li>
-            <li><a href="#services">Family planning</a></li>
+            <li><a href="#services">Diagnostics</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -913,14 +673,13 @@
     </div>
   </footer>
 
-</div><!-- /reveal-panel -->
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 (function(){
   "use strict";
 
-  /* ---------- Navbar solidify on scroll ---------- */
   var navbar = document.getElementById('navbar');
   function onScroll(){
     if(window.scrollY > 60){ navbar.classList.add('solid'); }
@@ -929,7 +688,6 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---------- Mobile nav toggle ---------- */
   var toggle = document.getElementById('navToggle');
   var links = document.getElementById('navLinks');
   toggle.addEventListener('click', function(){
@@ -943,8 +701,8 @@
     });
   });
 
-  /* ---------- Scroll-reveal for service rows ---------- */
   var rows = document.querySelectorAll('.service-row');
+  var seams = document.querySelectorAll('.wave-seam');
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
@@ -955,11 +713,21 @@
       });
     }, {threshold:.2});
     rows.forEach(function(r){ io.observe(r); });
+
+    var seamIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          seamIO.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.5});
+    seams.forEach(function(s){ seamIO.observe(s); });
   } else {
     rows.forEach(function(r){ r.classList.add('in-view'); });
+    seams.forEach(function(s){ s.classList.add('in-view'); });
   }
 
-  /* ---------- Animated stat counters ---------- */
   var counters = document.querySelectorAll('.count');
   var countersDone = false;
   function animateCounters(){
@@ -967,8 +735,7 @@
     countersDone = true;
     counters.forEach(function(el){
       var target = parseInt(el.getAttribute('data-target'), 10);
-      var start = 0;
-      var duration = 1100;
+      var duration = 1000;
       var startTime = null;
       function step(ts){
         if(!startTime) startTime = ts;
@@ -980,49 +747,34 @@
       requestAnimationFrame(step);
     });
   }
-  var statsEl = document.querySelector('.stats');
-  if(statsEl && 'IntersectionObserver' in window){
-    var statsIO = new IntersectionObserver(function(entries){
+  var chartEl = document.querySelector('.chart-list');
+  if(chartEl && 'IntersectionObserver' in window){
+    var chartIO = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        if(entry.isIntersecting){ animateCounters(); statsIO.disconnect(); }
+        if(entry.isIntersecting){ animateCounters(); chartIO.disconnect(); }
       });
     }, {threshold:.4});
-    statsIO.observe(statsEl);
+    chartIO.observe(chartEl);
   } else {
     animateCounters();
   }
 
-  /* ---------- Testimonial carousel ---------- */
   var track = document.getElementById('testiTrack');
   var prevBtn = document.getElementById('testiPrev');
   var nextBtn = document.getElementById('testiNext');
   var cards = track.children.length;
   var index = 0;
 
-  function perView(){
-    return window.innerWidth >= 820 ? 2 : 1;
-  }
-  function maxIndex(){
-    return Math.max(0, cards - perView());
-  }
+  function perView(){ return window.innerWidth >= 820 ? 2 : 1; }
+  function maxIndex(){ return Math.max(0, cards - perView()); }
   function update(){
     var pct = (100 / perView()) * index;
     track.style.transform = 'translateX(-' + pct + '%)';
   }
-  nextBtn.addEventListener('click', function(){
-    index = Math.min(index + 1, maxIndex());
-    update();
-  });
-  prevBtn.addEventListener('click', function(){
-    index = Math.max(index - 1, 0);
-    update();
-  });
-  window.addEventListener('resize', function(){
-    index = Math.min(index, maxIndex());
-    update();
-  });
+  nextBtn.addEventListener('click', function(){ index = Math.min(index + 1, maxIndex()); update(); });
+  prevBtn.addEventListener('click', function(){ index = Math.max(index - 1, 0); update(); });
+  window.addEventListener('resize', function(){ index = Math.min(index, maxIndex()); update(); });
 
-  /* ---------- Leaflet map ---------- */
   if(document.getElementById('map') && window.L){
     var lat = -1.0395480989504462;
     var lng = 37.069757374965235;
@@ -1035,9 +787,9 @@
 
     var pinIcon = L.divIcon({
       className:'',
-      html:'<div style="width:34px;height:34px;border-radius:50% 50% 50% 0;background:#E48FB3;transform:rotate(-45deg);box-shadow:0 6px 16px rgba(46,16,48,.35);border:3px solid #fff;"></div>',
-      iconSize:[34,34],
-      iconAnchor:[17,34]
+      html:'<div style="width:14px;height:14px;border-radius:50%;background:#B08D57;box-shadow:0 0 0 6px rgba(176,141,87,.25);border:2px solid #fff;"></div>',
+      iconSize:[14,14],
+      iconAnchor:[7,7]
     });
 
     L.marker([lat, lng], {icon:pinIcon}).addTo(map)
