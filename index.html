@@ -84,6 +84,51 @@
   }
   .eyebrow::before{ content:''; width:26px; height:1px; background:var(--brass); }
 
+  /* PRELOADER — heartbeat */
+  .preloader{
+    position:fixed; inset:0; z-index:1000;
+    background:var(--plum-deep);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:18px;
+    transition:opacity .6s var(--ease), visibility .6s var(--ease);
+  }
+  .preloader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .pulse-wrap{ width:220px; max-width:60vw; }
+  .pulse-line{ width:100%; height:auto; overflow:visible; }
+  .pulse-line path{
+    fill:none;
+    stroke:var(--brass-soft);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:pulseTravel 1.8s linear infinite;
+  }
+  .pulse-dot{
+    fill:var(--brass);
+    animation:pulseDot 1.8s linear infinite;
+  }
+  @keyframes pulseTravel{
+    0%{ stroke-dashoffset:600; }
+    60%{ stroke-dashoffset:0; }
+    100%{ stroke-dashoffset:0; }
+  }
+  @keyframes pulseDot{
+    0%, 55%{ opacity:0; }
+    58%{ opacity:1; }
+    64%{ opacity:0; }
+    100%{ opacity:0; }
+  }
+  .preloader-label{
+    font-family:var(--sans); font-size:.78rem; letter-spacing:.04em;
+    color:rgba(250,243,236,.5);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pulse-line path{ animation:none; stroke-dashoffset:0; }
+    .pulse-dot{ animation:none; opacity:0; }
+  }
+
   /* NAVBAR */
   .navbar{
     position:fixed; top:0; left:0; right:0; height:var(--nav-h); z-index:200;
@@ -190,6 +235,9 @@
     background:var(--brass); animation:cueSlide 2s var(--ease) infinite;
   }
   @keyframes cueSlide{ 0%{left:-100%;} 55%{left:100%;} 100%{left:100%;} }
+
+  /* mobile-only hero background photo (hidden on desktop, shown via media query) */
+  .hero-mobile-bg{ display:none; }
 
   /* REVEAL PANEL */
   .reveal-panel{ position:relative; z-index:10; background:var(--cream); }
@@ -357,9 +405,9 @@
     .hero-frame{ display:none; }
     .hero-copy{ padding-left:0; }
     .duality-grid{ grid-template-columns:1fr; gap:50px; }
-    .why-grid{ grid-template-columns:1fr; }
+    .why-grid{ grid-template-columns:1fr; gap:44px; }
     .why-list{ grid-template-columns:1fr; }
-    .service-row{ grid-template-columns:1fr; gap:36px; }
+    .service-row{ grid-template-columns:1fr; gap:36px; padding:56px 0; }
     .service-row[data-side="right"]{ direction:ltr; }
     .location-grid{ grid-template-columns:1fr; }
     #map{ min-height:320px; }
@@ -374,18 +422,109 @@
     .nav-links a{ color:var(--plum-deep) !important; font-size:1.1rem; }
     .nav-toggle{ display:block; }
     .nav-cta{ order:99; border-color:var(--plum-deep) !important; color:var(--plum-deep) !important; }
+
+    /* hero becomes a full-bleed photo background on tablet/mobile, desktop untouched */
+    .hero{ align-items:flex-end; padding-bottom:64px; }
+    .hero-mobile-bg{
+      display:block; position:absolute; inset:0;
+      background-size:cover; background-position:center 30%; background-repeat:no-repeat;
+    }
+    .hero-mobile-bg::after{
+      content:''; position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(43,14,39,.55) 0%, rgba(43,14,39,.35) 32%, rgba(43,14,39,.88) 82%, var(--plum-deep) 100%);
+    }
+    .hero-copy{ padding-right:8px; }
+    .hero-copy > p{ color:rgba(250,243,236,.85); }
   }
 
   @media(max-width:600px){
     .container{ padding:0 22px; }
-    .hero h1{ font-size:2.2rem; }
-    .compassion-panel{ padding:38px 28px; }
-    .cta-band{ padding:70px 24px; }
-    .footer-grid{ grid-template-columns:1fr 1fr; }
+
+    .navbar{ height:72px; }
+    .navbar.solid{ height:64px; }
+    .nav-logo img{ height:32px; }
+    .nav-logo span{ font-size:1.02rem; }
+
+    .hero h1{ font-size:2.05rem; margin-bottom:18px; }
+    .hero-copy > p{ font-size:1rem; margin-bottom:28px; max-width:100%; }
+    .hero-actions{ gap:14px; width:100%; }
+    .hero-actions .btn{ flex:1 1 auto; justify-content:center; }
+    .hero-scroll-cue{ display:none; }
+
+    .duality{ padding:70px 0 60px; }
+    .duality-head h2{ font-size:1.7rem; }
+    .compassion-panel{ padding:34px 26px; }
+    .compassion-panel p.lead{ font-size:1.25rem; }
+    .chart-row{ padding:16px 0; gap:14px; }
+    .chart-num{ font-size:1.7rem; min-width:52px; }
+    .chart-label{ font-size:.88rem; }
+
+    .services{ padding:10px 0 10px; }
+    .services-head{ margin-bottom:50px; }
+    .service-row{ padding:44px 0; gap:28px; }
+    .service-tag{ top:-12px; left:16px; padding:7px 13px; font-size:.74rem; }
+    .service-copy h3{ font-size:1.4rem; }
+    .service-copy p{ max-width:100%; }
+    .wave-seam{ display:none; }
+
+    .why{ padding:64px 0; margin-top:0; }
+    .why-item{ padding:22px 0; gap:14px; }
+
+    .testimonials{ padding:64px 0; }
+    .testi-head{ margin-bottom:36px; }
+    .testi-head h2{ font-size:1.6rem; }
+    .testi-card{ padding:32px 24px; }
+    .testi-quote{ font-size:1.1rem; }
+
+    .location{ padding:0 0 64px; }
+    .location-info{ padding:44px 26px; gap:22px; }
+    .location-info h2{ font-size:1.6rem; }
+    #map{ min-height:280px; }
+
+    .cta-band{ padding:64px 22px; }
+    .cta-band h2{ font-size:1.8rem; }
+    .cta-band .hero-actions{ flex-direction:column; align-items:stretch; }
+    .cta-band .btn{ justify-content:center; }
+
+    /* footer: single, clearly separated column instead of a cramped grid */
+    footer{ padding:52px 0 24px; }
+    .footer-grid{
+      grid-template-columns:1fr; gap:0; padding-bottom:8px; border-bottom:none;
+    }
+    .footer-col{
+      padding:24px 0; border-top:1px solid rgba(250,243,236,.12);
+    }
+    .footer-brand{ padding-top:0; }
+    .footer-col h5{ margin-bottom:14px; }
+    .footer-col ul{ flex-direction:row; flex-wrap:wrap; gap:10px 20px; }
+    .footer-brand ul{ display:none; }
+    .footer-social{ margin-top:18px; }
+    .footer-bottom{
+      flex-direction:column; align-items:flex-start; gap:6px;
+      padding-top:22px; border-top:1px solid rgba(250,243,236,.12); margin-top:8px;
+      font-size:.8rem;
+    }
+  }
+
+  @media(max-width:380px){
+    .hero h1{ font-size:1.8rem; }
+    .chart-row{ flex-direction:column; align-items:flex-start; gap:4px; }
+    .chart-label{ text-align:left; }
   }
 </style>
 </head>
 <body>
+
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="pulse-wrap">
+    <svg class="pulse-line" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 L48,30 L58,14 L68,46 L78,4 L88,30 L104,30 L112,20 L120,30 L220,30" />
+      <circle class="pulse-dot" cx="78" cy="4" r="4.5" />
+    </svg>
+  </div>
+  <div class="preloader-label">Saumed Gyna Care</div>
+</div>
 
 <nav class="navbar" id="navbar">
   <div class="container">
@@ -408,6 +547,7 @@
 
 <div class="hero-wrap" id="top">
   <section class="hero">
+    <div class="hero-mobile-bg" style="background-image:url('https://res.cloudinary.com/dpymwa41m/image/upload/v1789788723/ChatGPT_Image_Sep_19_2026_06_30_54_AM_impxvf.png?q=80&amp;w=1200&amp;auto=format&amp;fit=crop');"></div>
     <div class="container">
       <div class="hero-grid">
         <div class="hero-copy">
@@ -629,7 +769,7 @@
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div>
+        <div class="footer-col footer-brand">
           <div class="footer-logo">
             <img src="https://res.cloudinary.com/dpymwa41m/image/upload/v1789786580/saumed-website-logo-_a8spyx.png" alt="Saumed Gyna Care logo">
             <span>Saumed Gyna Care</span>
@@ -679,6 +819,19 @@
 <script>
 (function(){
   "use strict";
+
+  var preloader = document.getElementById('preloader');
+  function hidePreloader(){
+    if(!preloader) return;
+    preloader.classList.add('hide');
+    setTimeout(function(){ if(preloader && preloader.parentNode){ preloader.parentNode.removeChild(preloader); } }, 700);
+  }
+  if(document.readyState === 'complete'){
+    setTimeout(hidePreloader, 400);
+  } else {
+    window.addEventListener('load', function(){ setTimeout(hidePreloader, 400); });
+    setTimeout(hidePreloader, 3200);
+  }
 
   var navbar = document.getElementById('navbar');
   function onScroll(){
